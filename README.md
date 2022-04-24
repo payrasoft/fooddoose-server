@@ -1,1 +1,1 @@
-# fooddoose-server
+# FoodDoose Server
