@@ -1,0 +1,45 @@
+const mongoose = require("mongoose");
+const autoIncrement = require("mongoose-auto-increment");
+const userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        require: true,
+        required: true,
+        trim: true
+    },
+    email: {
+        type: String,
+        unique: true,
+        trim: true
+    },
+    shop_name: {
+        type: String,
+        unique: true,
+        trim: true
+    },
+    logo: {
+        type: String,
+    },
+    number: {
+        type: String,
+        require: true,
+        trim: true,
+    },
+    link: {
+        type: String,
+        require: true,
+        trim: true,
+    },
+    password: {
+        type: String,
+        require: true,
+    },
+})
+autoIncrement.initialize(mongoose.connection);
+userSchema.plugin(autoIncrement.plugin, {
+    model: "post",
+    field: "id",
+    startAt: 1,
+    incrementBy: 1,
+});
+module.exports = mongoose.model('Users', userSchema);
