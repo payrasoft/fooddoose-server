@@ -24,7 +24,7 @@ const userRegisterController = async(req, res, next) => {
         if (req.file && req.file.filename) {
             newUser = new Users({
                 ...req.body,
-                logo: req.file.filename,
+                logo: req.file.filename || "",
                 password: passwordHash,
                 email: email1,
             });

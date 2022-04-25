@@ -13,8 +13,8 @@ const addUserValidators = [
     .trim(),
     check("shopName").isLength({ min: 1 }).withMessage("Shop Name is required"),
     check("logo")
-    .notEmpty()
-    .withMessage("Please upload an image .jpg, .jpeg, .png"),
+    .isEmpty()
+    .withMessage("Please only submit .jpg, .jpeg & .png format."),
     check("email")
     .isEmail()
     .withMessage("Invalid email address")

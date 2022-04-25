@@ -21,8 +21,9 @@ const foodValidator = [
     .notEmpty()
     .withMessage("Delivery time must be in correct format yyyy:mm:dd hh:mm:ss"),
     check("colors").notEmpty().withMessage("Please select food color."),
-    check("avatar").optional().isBase64(),
-    // .withMessage("Please only submit .jpg, .jpeg & .png format."),
+    check("avatar")
+    .isEmpty()
+    .withMessage("Please only submit .jpg, .jpeg & .png format."),
     check("shortDescription")
     .notEmpty()
     .withMessage(`Description can not be empty.`)

@@ -17,7 +17,7 @@ const {
 
 userRouter.post(
     "/register",
-    upload.single("avatar"),
+    upload.single("logo"),
     addUserValidators,
     addUserValidationHandler,
     userRegisterController
