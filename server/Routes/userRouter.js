@@ -4,7 +4,7 @@ const {
     userRegisterController,
     userUpdateController,
 } = require("../Controller/userController");
-const { upload } = require("../Middleware/singleFileUpload");
+const { upload } = require("../Middleware/common/singleFileUpload");
 const {
     addUserValidators,
     addUserValidationHandler,
@@ -12,8 +12,8 @@ const {
 const {
     updateUserValidators,
     updateUserValidationHandler,
-} = require("../Middleware/validator/userUpdateValidator");
-const auth = require("../Middleware/auth");
+} = require("../Middleware/validator/userValidator");
+// const auth = require("../Middleware/auth");
 
 userRouter.post(
     "/register",

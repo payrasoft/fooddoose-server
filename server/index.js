@@ -42,5 +42,5 @@ app.all("/", function(req, res, next) {
 // server running port
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port http://localhost/${PORT}`, PORT);
+    console.log(`Server is running on port http://localhost:${PORT}`);
 });

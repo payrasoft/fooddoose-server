@@ -1,7 +1,7 @@
-const Users = require("../models/userModel");
-const balance = require("../models/balanceModel");
-const recharge = require("../models/rechargeModal");
-const mobileBanking = require("../models/MobileBankingModal");
+const Users = require("../Models/userModel");
+// const balance = require("../models/balanceModel");
+// const recharge = require("../models/rechargeModal");
+// const mobileBanking = require("../models/MobileBankingModal");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 /* const { unlink } = require("fs");
@@ -109,7 +109,7 @@ const userLogoutController = async(req, res, next) => {
 // user update controller
 const userUpdateController = async(req, res, next) => {
     const { id } = req.params;
-    const { name, email, password, shop_name } = req.body;
+    const { name, email, password, shop_name, link, number } = req.body;
 
     try {
         const user = await Users.findOne({ _id: id });
@@ -121,21 +121,23 @@ const userUpdateController = async(req, res, next) => {
             throw error;
         }
 
-        const avatar = req.file.filename;
+        let logo;
+        if (req.file) {
+            logo = req.file.filename;
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        await Users.findOneAndUpdate({ _id: user._id }, { $set: { name, email, hashedPassword, shop_name, avatar } }, { new: true });
+        await Users.findOneAndUpdate({ _id: user._id }, { $set: { name, email, number, link, hashedPassword, shop_name, logo } }, { new: true });
         res.status(200).json({
             success: true,
-            message: `User updated successfully.`
+            message: `User updated successfully.`,
         });
-
     } catch (error) {
         return res.status(400).json({
-            msg: err.message
-        })
+            msg: err.message,
+        });
     }
-}
+};
 
 // refresh Token
 const refreshToken = (req, res) => {
@@ -161,7 +163,7 @@ const refreshToken = (req, res) => {
 };
 
 // all user data
-const getAllUserDataController = (req, res, next) => {
+const getAllUserDataController = async(req, res, next) => {
     try {
         const { page = 1, limit = 10, status } = req.query;
         if (status) {
@@ -190,12 +192,10 @@ const getAllUserDataController = (req, res, next) => {
 };
 
 // get single user data
-const getSingleUserData = (req, res, next) => {
+const getSingleUserData = async(req, res, next) => {
     const userId = req.params.id;
     try {
-        const user = await Users.findOne({ _id: userId }).select(
-            "-password -__v"
-        );
+        const user = await Users.findOne({ _id: userId }).select("-password -__v");
         if (!user) return res.status(400).json({ msg: "User does not exist." });
         res.status(200).json(user);
     } catch (err) {
@@ -215,10 +215,10 @@ module.exports = {
     userRegisterController,
     userLoginController,
     userLogoutController,
-    userUpdateController
+    userUpdateController,
     refreshToken,
     getAllUserDataController,
     getSingleUserData,
     createAccessToken,
-    createRefreshToken
+    createRefreshToken,
 };
