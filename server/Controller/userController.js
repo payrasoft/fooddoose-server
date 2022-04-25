@@ -12,7 +12,9 @@ let refreshTokens = [];
 // user register controller
 const userRegisterController = async(req, res, next) => {
     try {
-        const { name, email, password, shop_name } = req.body;
+        const { name, email, password, shopName, number, link, id, status, role } =
+        req.body;
+        console.log(req.body);
 
         // Password Encryption
         const email1 = email.toLowerCase();
@@ -22,7 +24,7 @@ const userRegisterController = async(req, res, next) => {
         if (req.file && req.file.filename) {
             newUser = new Users({
                 ...req.body,
-                avatar: req.file.filename,
+                logo: req.file.filename,
                 password: passwordHash,
                 email: email1,
             });

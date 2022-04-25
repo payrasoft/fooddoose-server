@@ -2,6 +2,9 @@ const Food = require("../Models/FoodModel");
 
 // add new food post controller
 const addNewFoodPostController = async(req, res, next) => {
+    console.log(req.body);
+    console.log(req.file.filename);
+
     const {
         itemName,
         categoryName,
@@ -15,30 +18,30 @@ const addNewFoodPostController = async(req, res, next) => {
         shortDescription,
         longDescription,
     } = req.body;
+
     const file = req.file.filename || "";
 
     try {
         const newFoodItem = new Food({
             itemName,
             categoryName,
-            quantity,
-            price,
+            quantity: parseInt(quantity),
+            price: parseInt(price),
             deliveryTime,
             colors,
             discountType,
-            discountPrice,
+            discountPrice: parseInt(discountPrice),
             extraItemName,
             avatar: file,
             shortDescription,
             longDescription,
         });
-
+        console.log("save before");
         await newFoodItem.save();
+        console.log("save");
         res.status(200).json({
-            success: true,
-            message: `Food added successfully.`,
+            message: "Food added successfully!",
         });
-        next();
     } catch (error) {
         res.status(500).json({
             success: false,

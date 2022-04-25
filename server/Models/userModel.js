@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
         trim: true,
     },
-    shop_name: {
+    shopName: {
         type: String,
         unique: true,
         trim: true,
