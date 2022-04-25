@@ -5,17 +5,17 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true,
         required: true,
-        trim: true
+        trim: true,
     },
     email: {
         type: String,
         unique: true,
-        trim: true
+        trim: true,
     },
     shop_name: {
         type: String,
         unique: true,
-        trim: true
+        trim: true,
     },
     logo: {
         type: String,
@@ -34,7 +34,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
-})
+    id: {
+        type: Number,
+        auto: true,
+    },
+    status: {
+        type: String,
+    },
+    role: {
+        type: Number,
+        default: 1,
+    },
+});
 autoIncrement.initialize(mongoose.connection);
 userSchema.plugin(autoIncrement.plugin, {
     model: "post",
@@ -42,4 +53,4 @@ userSchema.plugin(autoIncrement.plugin, {
     startAt: 1,
     incrementBy: 1,
 });
-module.exports = mongoose.model('Users', userSchema);
+module.exports = mongoose.model("Users", userSchema);
