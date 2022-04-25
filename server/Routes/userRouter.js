@@ -1,14 +1,12 @@
 const router = require('express').Router();
-const userController = require('../controller/userController')
-
-const { upload } = require('../Middlewares/singleFileUpload')
+const userController = require('../Controller/userController')
+const { upload } = require('../Middleware/common/singleFileUpload')
 const { addUserValidators,
-    addUserValidationHandler, } = require('../Middlewares/validator/userValidator');
-const { updateUserValidators,
-    updateUserValidationHandler, } = require('../Middlewares/validator/userUpdateValidator')
-router.post('/register', upload.single('avatar'), addUserValidators, addUserValidationHandler, userCtrl.register)
+    addUserValidationHandler, } = require('../Middleware/validator/userValidator');
 
-const auth = require('../Middlewares/auth')
+router.post('/register', upload.single('avatar'), addUserValidators, addUserValidationHandler, userController.register)
+
+
 router.post('/login', userController.login)/* 
 router.get('/logout', userController.logout)
 router.get('/refresh_token', userController.refreshToken);

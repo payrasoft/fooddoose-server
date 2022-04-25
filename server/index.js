@@ -27,7 +27,8 @@ app.use('/user', require('./Routes/userRouter'))
 const URI = process.env.MONGO_CONNECTION_STRING
 mongoose.connect(URI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    // useMongoClient: true
 }, err => {
     if (err) throw err;
     console.log('Connected to MongoDB')
