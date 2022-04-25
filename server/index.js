@@ -14,7 +14,6 @@ app.use(cors({
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.use(bodyParser());
 app.all('/', function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '/*');
     res.header('Access-Control-Allow-Headers', 'Content-Type,accept,access_token,X-Requested-With');
@@ -36,7 +35,6 @@ mongoose.connect(URI, {
 app.get('/', (req, res) => {
     res.send('Welcome')
 })
-
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
