@@ -12,7 +12,6 @@ const addUserValidators = [
     .withMessage("Name must not contain anything other than alphabet")
     .trim(),
     check("shop_name").isLength({ min: 1 }).withMessage("Shop Name is required"),
-
     check("email")
     .isEmail()
     .withMessage("Invalid email address")
@@ -71,7 +70,7 @@ const addUserValidationHandler = function(req, res, next) {
         if (req.file && req.file.filename) {
             const filename = req.file.filename;
             unlink(
-                path.join(path.dirname(__dirname), `../uploads/${filename}`),
+                path.join(path.dirname(__dirname), `../public/uploads/${filename}`),
                 (err) => {
                     if (err) console.log(err);
                 }
@@ -79,7 +78,6 @@ const addUserValidationHandler = function(req, res, next) {
         }
 
         // response the errors
-
         res.status(500).json({
             errors: mappedErrors,
             data: req.body,
