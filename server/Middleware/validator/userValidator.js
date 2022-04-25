@@ -11,7 +11,9 @@ const addUserValidators = [
     .isAlpha("en-US", { ignore: " -" })
     .withMessage("Name must not contain anything other than alphabet")
     .trim(),
-    check("shop_name").isLength({ min: 1 }).withMessage("Shop Name is required"),
+    check("shopName").isLength({ min: 1 }).withMessage("Shop Name is required"),
+    check('logo')
+    .notEmpty().withMessage('Please upload an image .jpg, .jpeg, .png')
     check("email")
     .isEmail()
     .withMessage("Invalid email address")
