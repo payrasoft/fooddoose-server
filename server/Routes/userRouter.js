@@ -1,23 +1,37 @@
-const router = require('express').Router();
-const userController = require('../Controller/userController')
-const { upload } = require('../Middleware/common/singleFileUpload')
-const { addUserValidators,
-    addUserValidationHandler, } = require('../Middleware/validator/userValidator');
+const userRouter = require("express").Router({ caseSensitive: true });
+const {
+    userLoginController,
+    userRegisterController,
+    userUpdateController,
+} = require("../Controller/userController");
+const { upload } = require("../Middleware/common/singleFileUpload");
+const {
+    addUserValidators,
+    addUserValidationHandler,
+} = require("../Middleware/validator/userValidator");
+const {
+    updateUserValidators,
+    updateUserValidationHandler,
+} = require("../Middleware/validator/userValidator");
+// const auth = require("../Middleware/auth");
 
-router.post('/register', upload.single('avatar'), addUserValidators, addUserValidationHandler, userController.register)
+userRouter.post(
+    "/register",
+    upload.single("logo"),
+    addUserValidators,
+    addUserValidationHandler,
+    userRegisterController
+);
+userRouter.post("/login", userLoginController);
+userRouter.put("/update/:id", userUpdateController);
+/* 
+userRouter.get('/logout', userController.logout)
+userRouter.get('/refresh_token', userController.refreshToken);
+userRouter.get('/information/:id', userController.getUser)
+userRouter.get('/all-information', userController.allUser)
+userRouter.put('/edit/:id', auth, upload.single('avatar'), updateUserValidators, updateUserValidationHandler, userCtrl.editUser) */
 
+// userRouter.patch('/addcart', auth, userCtrl.addCart)
+// userRouter.get('/history', auth, userCtrl.history)
 
-router.post('/login', userController.login)/* 
-router.get('/logout', userController.logout)
-router.get('/refresh_token', userController.refreshToken);
-router.get('/information/:id', userController.getUser)
-router.get('/all-information', userController.allUser)
-router.put('/update/:id', auth, userController.statusUpdate)
-router.put('/edit/:id', auth, upload.single('avatar'), updateUserValidators, updateUserValidationHandler, userCtrl.editUser) */
-
-// router.patch('/addcart', auth, userCtrl.addCart)
-
-// router.get('/history', auth, userCtrl.history)
-
-
-module.exports = router
+module.exports = userRouter;
