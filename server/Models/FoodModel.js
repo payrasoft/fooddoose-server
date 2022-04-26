@@ -1,50 +1,58 @@
 const mongoose = require("mongoose");
 
-const foodSchema = new mongoose.Schema({
+const foodSchema = new mongoose.Schema(
+  {
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "userModel",
+      required: true,
+    },
     itemName: {
-        type: String,
-        required: true,
-        trim: true,
+      type: String,
+      required: true,
+      trim: true,
     },
     categoryName: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     quantity: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
     },
     price: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
     },
     deliveryTime: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     colors: {
-        type: String,
+      type: String,
     },
     discountType: {
-        type: String,
+      type: String,
     },
     discountPrice: {
-        type: Number,
+      type: Number,
     },
     extraItemName: {
-        type: String,
+      type: String,
     },
     avatar: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     shortDescription: {
-        type: String,
+      type: String,
     },
     longDescription: {
-        type: String,
+      type: String,
     },
-}, { timestamps: true });
+  },
+  { timestamps: true }
+);
 
 const Food = mongoose.model("Food", foodSchema);
 
