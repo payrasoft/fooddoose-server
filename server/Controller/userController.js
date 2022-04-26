@@ -10,16 +10,10 @@ let refreshTokens = [];
 const userRegisterController = async(req, res, next) => {
     try {
         const {
-            name,
+            
             email,
             password,
-            confirmPassword,
-            number,
-            shopName,
-            link,
-            id,
-            status,
-            role,
+           
         } = req.body;
         console.log(req.body);
 
@@ -34,6 +28,7 @@ const userRegisterController = async(req, res, next) => {
                 logo: req.file.filename || "",
                 password: passwordHash,
                 email: email1,
+                confirmPassword: passwordHash
             });
         } else {
             newUser = new Users({
