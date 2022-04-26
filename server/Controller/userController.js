@@ -1,7 +1,4 @@
 const Users = require("../Models/userModel");
-// const balance = require("../models/balanceModel");
-// const recharge = require("../models/rechargeModal");
-// const mobileBanking = require("../models/MobileBankingModal");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 /* const { unlink } = require("fs");
@@ -12,8 +9,18 @@ let refreshTokens = [];
 // user register controller
 const userRegisterController = async(req, res, next) => {
     try {
-        const { name, email, password, shopName, number, link, id, status, role } =
-        req.body;
+        const {
+            name,
+            email,
+            password,
+            confirmPassword,
+            number,
+            shopName,
+            link,
+            id,
+            status,
+            role,
+        } = req.body;
         console.log(req.body);
 
         // Password Encryption
@@ -88,7 +95,7 @@ const userLoginController = async(req, res, next) => {
             accesstoken,
             refreshtoken,
             userData,
-            msg: "Login Successfull!",
+            msg: "Login Successfully!",
         });
     } catch (err) {
         return res.status(500).json({ msg: err.message });

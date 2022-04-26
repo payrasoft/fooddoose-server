@@ -12,27 +12,30 @@ const userSchema = new mongoose.Schema({
         unique: true,
         trim: true,
     },
+    password: {
+        type: String,
+        require: true,
+    },
+    confirmPassword: {
+        type: String,
+        require: true,
+    },
     shopName: {
         type: String,
-        unique: true,
         trim: true,
-    },
-    logo: {
-        type: String,
     },
     number: {
         type: String,
         require: true,
         trim: true,
     },
+    logo: {
+        type: String,
+        required: true,
+    },
     link: {
         type: String,
-        require: true,
         trim: true,
-    },
-    password: {
-        type: String,
-        require: true,
     },
     id: {
         type: Number,
