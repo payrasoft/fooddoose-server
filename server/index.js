@@ -20,9 +20,9 @@ allRoutes(app);
 const URI = process.env.MONGO_CONNECTION_STRING;
 mongoose.connect(
     URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    },
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+},
     (err) => {
         if (err) throw err;
         console.log("Connected to MongoDB");
@@ -30,7 +30,7 @@ mongoose.connect(
 );
 
 //
-app.all("/", function(req, res, next) {
+app.all("/", function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "/*");
     res.header(
         "Access-Control-Allow-Headers",

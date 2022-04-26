@@ -1,7 +1,4 @@
 const Users = require("../Models/userModel");
-// const balance = require("../models/balanceModel");
-// const recharge = require("../models/rechargeModal");
-// const mobileBanking = require("../models/MobileBankingModal");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 /* const { unlink } = require("fs");
