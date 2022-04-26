@@ -9,8 +9,18 @@ let refreshTokens = [];
 // user register controller
 const userRegisterController = async(req, res, next) => {
     try {
-        const { name, email, password, shopName, number, link, id, status, role } =
-        req.body;
+        const {
+            name,
+            email,
+            password,
+            confirmPassword,
+            number,
+            shopName,
+            link,
+            id,
+            status,
+            role,
+        } = req.body;
         console.log(req.body);
 
         // Password Encryption
@@ -21,7 +31,7 @@ const userRegisterController = async(req, res, next) => {
         if (req.file && req.file.filename) {
             newUser = new Users({
                 ...req.body,
-                logo: req.file.filename,
+                logo: req.file.filename || "",
                 password: passwordHash,
                 email: email1,
             });
@@ -85,7 +95,7 @@ const userLoginController = async(req, res, next) => {
             accesstoken,
             refreshtoken,
             userData,
-            msg: "Login Successfull!",
+            msg: "Login Successfully!",
         });
     } catch (err) {
         return res.status(500).json({ msg: err.message });

@@ -11,7 +11,22 @@ const addUserValidators = [
     .isAlpha("en-US", { ignore: " -" })
     .withMessage("Name must not contain anything other than alphabet")
     .trim(),
-    check("shopName").isLength({ min: 1 }).withMessage("Shop Name is required"),
+    check("shopName")
+    .isLength({ min: 1 })
+    .withMessage("Shop Name is required")
+    .custom(async(value) => {
+        try {
+            const user = await User.findOne({ shopName: value });
+            if (user) {
+                throw createError("Shop name already is use!");
+            }
+        } catch (err) {
+            throw createError(err.message);
+        }
+    }),
+    check("logo")
+    .isEmpty()
+    .withMessage("Please only submit .jpg, .jpeg & .png format."),
     check("email")
     .isEmail()
     .withMessage("Invalid email address")
@@ -54,7 +69,7 @@ const addUserValidators = [
         "Password must be at least 8 characters long & should contain at least 1 lowercase, 1 uppercase, 1 number & 1 symbol"
     )
     .custom((confirmPassword, { req }) => {
-        if (confirmPassword != req.body.password) {
+        if (confirmPassword !== req.body.password) {
             return Promise.reject("Password confirmation does not match password");
         }
         return true;
