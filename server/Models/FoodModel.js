@@ -1,12 +1,7 @@
 const mongoose = require("mongoose");
-
+const autoIncrement = require("mongoose-auto-increment");
 const foodSchema = new mongoose.Schema(
   {
-    author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "userModel",
-      required: true,
-    },
     itemName: {
       type: String,
       required: true,
@@ -28,21 +23,14 @@ const foodSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    colors: {
-      type: String,
-    },
     discountType: {
       type: String,
     },
     discountPrice: {
       type: Number,
     },
-    extraItemName: {
+    image: {
       type: String,
-    },
-    avatar: {
-      type: String,
-      required: true,
     },
     shortDescription: {
       type: String,
@@ -50,10 +38,21 @@ const foodSchema = new mongoose.Schema(
     longDescription: {
       type: String,
     },
+    foodId: {
+      type: Number,
+      auto: true,
+    },
   },
   { timestamps: true }
 );
 
+autoIncrement.initialize(mongoose.connection);
+foodSchema.plugin(autoIncrement.plugin, {
+  model: "post",
+  field: "foodId",
+  startAt: 1,
+  incrementBy: 1,
+});
 const Food = mongoose.model("Food", foodSchema);
 
 module.exports = Food;

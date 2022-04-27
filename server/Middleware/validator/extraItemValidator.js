@@ -10,8 +10,8 @@ const extraItemValidator = [
     .withMessage("Name is required.")
     .trim(),
   check("avatar")
-    // .isEmpty()
-    // .withMessage("Please only submit .jpg, .jpeg & .png format."),
+    .notEmpty()
+    .withMessage("image is required.")
     .custom((req) => {
       if (
         req.file.mimetype === "image/jpg" ||

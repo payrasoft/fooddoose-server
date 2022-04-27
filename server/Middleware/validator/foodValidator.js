@@ -5,31 +5,34 @@ const { unlink } = require("fs");
 
 // validator
 const foodValidator = [
-    check("itemName")
+  check("itemName")
     .isLength({ min: 1 })
     .notEmpty()
     .withMessage("Name is required.")
     .trim(),
-    check("categoryName")
-    .isLength({ min: 1 })
-    .notEmpty()
-    .withMessage("Category name is required.")
-    .trim(),
-    check("quantity").trim().isInt().withMessage("Quantity is required."),
-    check("price").trim().isInt().withMessage("Price is required."),
-    check("deliveryTime")
+  check("categoryName").custom((categoryName, { req }) => {
+    if (categoryName === "1") {
+      return Promise.reject("Category name is required, Chose one.");
+    }
+    return true;
+  }),
+  check("quantity").trim().isInt().withMessage("Quantity is required."),
+  check("price").trim().isInt().withMessage("Price is required."),
+  check("deliveryTime")
     .notEmpty()
     .withMessage("Delivery time must be in correct format yyyy:mm:dd hh:mm:ss"),
-    check("colors").notEmpty().withMessage("Please select food color."),
-    check("avatar")
-    .isEmpty()
-    .withMessage("Please only submit .jpg, .jpeg & .png format."),
-    check("shortDescription")
+  check("image").custom((image, { req }) => {
+    if (image === null) {
+      return Promise.reject("image is required.");
+    }
+    return true;
+  }),
+  check("shortDescription")
     .notEmpty()
     .withMessage(`Description can not be empty.`)
     .isLength({ min: 10 })
     .withMessage(`Description will be greater than 10 words.`),
-    check("longDescription")
+  check("longDescription")
     .notEmpty()
     .withMessage(`Description can not be empty.`)
     .isLength({ min: 20 })
@@ -38,30 +41,30 @@ const foodValidator = [
 
 // validation handler
 const foodValidationErrorHandler = (req, res, next) => {
-    const errors = validationResult(req);
-    const mappedErrors = errors.mapped();
+  const errors = validationResult(req);
+  const mappedErrors = errors.mapped();
 
-    if (Object.keys(mappedErrors).length === 0) {
-        next();
-    } else {
-        if (req.file) {
-            const filename = req.file.filename;
-            unlink(
-                path.join(path.dirname(__dirname), `../public/uploads/${filename}`),
-                (error) => {
-                    console.log(error);
-                }
-            );
+  if (Object.keys(mappedErrors).length === 0) {
+    next();
+  } else {
+    if (req.file) {
+      const filename = req.file.filename;
+      unlink(
+        path.join(path.dirname(__dirname), `../public/uploads/${filename}`),
+        (error) => {
+          console.log(error);
         }
-
-        // response errors
-        res.status(500).json({
-            errors: mappedErrors,
-        });
+      );
     }
+
+    // response errors
+    res.status(500).json({
+      errors: mappedErrors,
+    });
+  }
 };
 
 module.exports = {
-    foodValidator,
-    foodValidationErrorHandler,
+  foodValidator,
+  foodValidationErrorHandler,
 };
