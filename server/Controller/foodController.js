@@ -29,7 +29,7 @@ const addNewFoodPostController = async (req, res, next) => {
             discountType,
             discountPrice: parseInt(discountPrice),
             extraItemName,
-            avatar: file,
+            image: file,
             shortDescription,
             longDescription,
         });

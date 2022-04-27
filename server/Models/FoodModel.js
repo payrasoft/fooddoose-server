@@ -22,9 +22,7 @@ const foodSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    colors: {
-        type: String,
-    },
+ 
     discountType: {
         type: String,
     },
@@ -34,9 +32,9 @@ const foodSchema = new mongoose.Schema({
     extraItemName: {
         type: String,
     },
-    avatar: {
+    ImageBitmap: {
         type: String,
-        required: true,
+      
     },
     shortDescription: {
         type: String,
