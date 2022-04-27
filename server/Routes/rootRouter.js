@@ -1,10 +1,7 @@
 const rootRouter = require("express").Router({ caseSensitive: true });
 
-rootRouter.get("/", (req, res, next) => {
-    res.status(200).json({
-        success: true,
-        message: `Root route found.!`,
-    });
+rootRouter.get("/", (req, res) => {
+    res.send('Welcome')
 });
 
 module.exports = rootRouter;
