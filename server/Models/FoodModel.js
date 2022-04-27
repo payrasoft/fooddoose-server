@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const autoIncrement = require("mongoose-auto-increment");
 const foodSchema = new mongoose.Schema({
     itemName: {
         type: String,
