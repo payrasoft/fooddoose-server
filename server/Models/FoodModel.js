@@ -49,7 +49,7 @@ const foodSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 autoIncrement.initialize(mongoose.connection);
-userSchema.plugin(autoIncrement.plugin, {
+foodSchema.plugin(autoIncrement.plugin, {
     model: "post",
     field: "foodId",
     startAt: 1,
