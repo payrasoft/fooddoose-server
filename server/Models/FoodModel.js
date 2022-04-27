@@ -22,7 +22,7 @@ const foodSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
- 
+
     discountType: {
         type: String,
     },
@@ -34,7 +34,7 @@ const foodSchema = new mongoose.Schema({
     },
     ImageBitmap: {
         type: String,
-      
+
     },
     shortDescription: {
         type: String,
@@ -42,8 +42,19 @@ const foodSchema = new mongoose.Schema({
     longDescription: {
         type: String,
     },
+    foodId:{
+        type : Number,
+        auto: true
+    }
 }, { timestamps: true });
 
+autoIncrement.initialize(mongoose.connection);
+userSchema.plugin(autoIncrement.plugin, {
+    model: "post",
+    field: "foodId",
+    startAt: 1,
+    incrementBy: 1,
+});
 const Food = mongoose.model("Food", foodSchema);
 
 module.exports = Food;
