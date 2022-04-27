@@ -208,7 +208,7 @@ const getSingleUserData = async (req, res, next) => {
 };
 
 const createAccessToken = (user) => {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "30m" });
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "20s" });
 };
 
 const createRefreshToken = (user) => {

@@ -15,7 +15,7 @@ const addNewFoodPostController = async (req, res, next) => {
         shortDescription,
         longDescription,
     } = req.body;
-    const file = req.file.filename || "";
+    const file = req.file?.filename || "";
 
     try {
         const newFoodItem = new Food({
