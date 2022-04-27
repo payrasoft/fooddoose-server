@@ -7,13 +7,13 @@ const path = require("path"); */
 let refreshTokens = [];
 
 // user register controller
-const userRegisterController = async(req, res, next) => {
+const userRegisterController = async (req, res, next) => {
     try {
         const {
-            
+
             email,
             password,
-           
+
         } = req.body;
         console.log(req.body);
 
@@ -58,7 +58,7 @@ const userRegisterController = async(req, res, next) => {
 };
 
 // user login controller
-const userLoginController = async(req, res, next) => {
+const userLoginController = async (req, res, next) => {
     try {
         const { email, password } = req.body;
         const user = await Users.findOne({ email });
@@ -66,7 +66,7 @@ const userLoginController = async(req, res, next) => {
         if (!user) return res.status(400).json({ msg: "User does not exist." });
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ msg: "Incorrect password." });
-        if (user.role === 0 && user.status !== "Approved") {
+        if (user.role === 2 && user.status !== "Approved") {
             return res.status(400).json({ msg: "You can not login right now" });
         }
 
@@ -98,7 +98,7 @@ const userLoginController = async(req, res, next) => {
 };
 
 // user logout controller
-const userLogoutController = async(req, res, next) => {
+const userLogoutController = async (req, res, next) => {
     const refreshToken = req.header("Authorization");
 
     try {
@@ -111,7 +111,7 @@ const userLogoutController = async(req, res, next) => {
 };
 
 // user update controller
-const userUpdateController = async(req, res, next) => {
+const userUpdateController = async (req, res, next) => {
     const { id } = req.params;
     const { name, email, password, shop_name, link, number } = req.body;
 
@@ -152,7 +152,7 @@ const refreshToken = (req, res) => {
         res.status(403).json({
             errors: [{
                 msg: "Invalid refresh token",
-            }, ],
+            },],
         });
     }
     try {
@@ -167,7 +167,7 @@ const refreshToken = (req, res) => {
 };
 
 // all user data
-const getAllUserDataController = async(req, res, next) => {
+const getAllUserDataController = async (req, res, next) => {
     try {
         const { page = 1, limit = 10, status } = req.query;
         if (status) {
@@ -175,7 +175,7 @@ const getAllUserDataController = async(req, res, next) => {
 
             const user = await Users.find({ status: status })
                 .sort({ createdAt: -1 })
-                .select("-password -__v")
+                .select("-password -__v -confirmPassword")
                 .limit(limit * 1)
                 .skip((page - 1) * limit);
             if (!user) return res.status(400).json({ msg: "User does not exist." });
@@ -184,7 +184,7 @@ const getAllUserDataController = async(req, res, next) => {
         if (!status) {
             const total = await Users.find();
             const user = await Users.find()
-                .select("-password -__v")
+                .select("-password -__v -confirmPassword")
                 .limit(limit * 1)
                 .skip((page - 1) * limit);
             if (!user) return res.status(400).json({ msg: "User does not exist." });
@@ -196,7 +196,7 @@ const getAllUserDataController = async(req, res, next) => {
 };
 
 // get single user data
-const getSingleUserData = async(req, res, next) => {
+const getSingleUserData = async (req, res, next) => {
     const userId = req.params.id;
     try {
         const user = await Users.findOne({ _id: userId }).select("-password -__v");

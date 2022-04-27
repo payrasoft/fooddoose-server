@@ -1,7 +1,7 @@
 const Food = require("../Models/FoodModel");
 
 // add new food post controller
-const addNewFoodPostController = async(req, res, next) => {
+const addNewFoodPostController = async (req, res, next) => {
     const {
         itemName,
         categoryName,
@@ -19,6 +19,7 @@ const addNewFoodPostController = async(req, res, next) => {
 
     try {
         const newFoodItem = new Food({
+            user: req.userId,
             itemName,
             categoryName,
             quantity: parseInt(quantity),
@@ -48,7 +49,7 @@ const addNewFoodPostController = async(req, res, next) => {
 };
 
 // all foods get controller
-const allFoodsGetController = async(req, res, next) => {
+const allFoodsGetController = async (req, res, next) => {
     try {
         const foods = await Food.find();
 
@@ -65,7 +66,7 @@ const allFoodsGetController = async(req, res, next) => {
 };
 
 // single food get controller
-const singleItemFoodGetController = async(req, res, next) => {
+const singleItemFoodGetController = async (req, res, next) => {
     const { foodId } = req.params;
 
     try {
@@ -84,7 +85,7 @@ const singleItemFoodGetController = async(req, res, next) => {
 };
 
 // food update controller
-const foodUpdateController = async(req, res, next) => {
+const foodUpdateController = async (req, res, next) => {
     const {
         itemName,
         categoryName,
@@ -131,7 +132,7 @@ const foodUpdateController = async(req, res, next) => {
 };
 
 // single food item delete controller
-const singleFoodItemDeleteController = async(req, res, next) => {
+const singleFoodItemDeleteController = async (req, res, next) => {
     const { foodId } = req.params;
 
     try {
