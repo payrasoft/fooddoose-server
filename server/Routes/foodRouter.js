@@ -1,4 +1,5 @@
 const foodRouter = require("express").Router({ caseSensitive: true });
+const isAuthenticate = require("../Middleware/common/isAuthenticate");
 const {
   addNewFoodPostController,
   allFoodsGetController,
@@ -14,14 +15,27 @@ const {
 
 foodRouter.post(
   "/add-new-food",
+  isAuthenticate,
   upload.single("image"),
   foodValidator,
   foodValidationErrorHandler,
   addNewFoodPostController
 );
-foodRouter.get("/all-foods", allFoodsGetController);
-foodRouter.get("/single-item/:foodId", singleItemFoodGetController);
-foodRouter.put("/update/single-item/:foodId", foodUpdateController);
-foodRouter.delete("/delete/:foodId", singleFoodItemDeleteController);
+foodRouter.get("/all-foods", isAuthenticate, allFoodsGetController);
+foodRouter.get(
+  "/single-item/:foodId",
+  isAuthenticate,
+  singleItemFoodGetController
+);
+foodRouter.put(
+  "/update/single-item/:foodId",
+  isAuthenticate,
+  foodUpdateController
+);
+foodRouter.delete(
+  "/delete/:foodId",
+  isAuthenticate,
+  singleFoodItemDeleteController
+);
 
 module.exports = foodRouter;

@@ -1,8 +1,14 @@
 const userRouter = require("express").Router({ caseSensitive: true });
 const {
-    userLoginController,
     userRegisterController,
+    userLoginController,
+    userLogoutController,
     userUpdateController,
+    refreshToken,
+    getAllUserDataController,
+    getSingleUserData,
+    createAccessToken,
+    createRefreshToken,
 } = require("../Controller/userController");
 const { upload } = require("../Middleware/common/singleFileUpload");
 const {
@@ -24,8 +30,10 @@ userRouter.post(
 );
 userRouter.post("/login", userLoginController);
 userRouter.put("/update/:id", userUpdateController);
+userRouter.post('/logout', userLogoutController)
+userRouter.get('/all-user', getAllUserDataController)
 /* 
-userRouter.get('/logout', userController.logout)
+// 
 userRouter.get('/refresh_token', userController.refreshToken);
 userRouter.get('/information/:id', userController.getUser)
 userRouter.get('/all-information', userController.allUser)

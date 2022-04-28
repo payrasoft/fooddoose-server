@@ -66,7 +66,7 @@ const userLoginController = async (req, res, next) => {
         if (!user) return res.status(400).json({ msg: "User does not exist." });
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ msg: "Incorrect password." });
-        if (user.role === 0 && user.status !== "Approved") {
+        if (user.role === 2 && user.status !== "Approved") {
             return res.status(400).json({ msg: "You can not login right now" });
         }
 
@@ -175,7 +175,7 @@ const getAllUserDataController = async (req, res, next) => {
 
             const user = await Users.find({ status: status })
                 .sort({ createdAt: -1 })
-                .select("-password -__v")
+                .select("-password -__v -confirmPassword")
                 .limit(limit * 1)
                 .skip((page - 1) * limit);
             if (!user) return res.status(400).json({ msg: "User does not exist." });
@@ -184,7 +184,7 @@ const getAllUserDataController = async (req, res, next) => {
         if (!status) {
             const total = await Users.find();
             const user = await Users.find()
-                .select("-password -__v")
+                .select("-password -__v -confirmPassword")
                 .limit(limit * 1)
                 .skip((page - 1) * limit);
             if (!user) return res.status(400).json({ msg: "User does not exist." });
