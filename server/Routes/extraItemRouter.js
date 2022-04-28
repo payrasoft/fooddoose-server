@@ -16,13 +16,21 @@ const {
 extraItemRouter.post(
   "/add-extra-food-item",
   upload.single("image"),
-  isAuthenticate
+  isAuthenticate,
   extraItemValidator,
   extraFoodValidationErrorHandler,
   extraItemFoodAddPostController
 );
-extraItemRouter.get("/all-extra-food-items", isAuthenticate, allExtraFoodItemsGetController);
-extraItemRouter.get("/extra-foods-single-item/:foodId", isAuthenticate, singleExtraFoodItem);
+extraItemRouter.get(
+  "/all-extra-food-items",
+  isAuthenticate,
+  allExtraFoodItemsGetController
+);
+extraItemRouter.get(
+  "/extra-foods-single-item/:foodId",
+  isAuthenticate,
+  singleExtraFoodItem
+);
 extraItemRouter.delete(
   "/extra-foods-delete-single-item/:foodId",
   isAuthenticate,

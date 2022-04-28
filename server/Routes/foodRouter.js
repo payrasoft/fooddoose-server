@@ -29,7 +29,10 @@ foodRouter.get(
 );
 foodRouter.put(
   "/update/single-item/:foodId",
+  upload.single("image"),
   isAuthenticate,
+  foodValidator,
+  foodValidationErrorHandler,
   foodUpdateController
 );
 foodRouter.delete(
