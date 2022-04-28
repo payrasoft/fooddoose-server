@@ -21,12 +21,14 @@ const foodValidator = [
   check("deliveryTime")
     .notEmpty()
     .withMessage("Delivery time must be in correct format yyyy:mm:dd hh:mm:ss"),
-  check("image").custom((image, { req }) => {
-    if (image === null) {
-      return Promise.reject("image is required.");
-    }
-    return true;
-  }),
+  check("image")
+    .custom((image, { req }) => {
+      if (image === null) {
+        return Promise.reject("image is required.");
+      }
+      return true;
+    })
+    .withMessage("Image is required."),
   check("shortDescription")
     .notEmpty()
     .withMessage(`Description can not be empty.`)

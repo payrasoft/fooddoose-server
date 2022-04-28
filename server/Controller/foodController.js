@@ -44,7 +44,7 @@ const addNewFoodPostController = async (req, res, next) => {
 // all foods get controller
 const allFoodsGetController = async (req, res, next) => {
   try {
-    const foods = await Food.find();
+    const foods = await Food.find({});
 
     res.status(200).json({
       success: true,
@@ -110,9 +110,11 @@ const foodUpdateController = async (req, res, next) => {
       );
 
       // delete prev img
-      unlink(
-        path.join(path.dirname(__dirname), `../public/uploads/${food.image}`)
-      );
+      unlink(path.join("public/" + `uploads/${food.image}`), (err) => {
+        if (err) console.log(err);
+      });
+
+      // response
       res.status(200).json({
         success: true,
         message: "Food updated successfully.",

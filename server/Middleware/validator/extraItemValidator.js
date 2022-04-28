@@ -9,24 +9,15 @@ const extraItemValidator = [
     .notEmpty()
     .withMessage("Name is required.")
     .trim(),
-  check("avatar")
-    .notEmpty()
-    .withMessage("image is required.")
-    .custom((req) => {
-      if (
-        req.file.mimetype === "image/jpg" ||
-        req.file.mimetype === "image/jpeg" ||
-        req.file.mimetype === "image/png"
-      ) {
-        throw new Error("Please only submit .jpg, .jpeg & .png format.");
+  check("image")
+    .custom((image, { req }) => {
+      if (image === null) {
+        return Promise.reject("image is required.");
       }
-    }),
-  check("price")
-    .not()
-    .isEmpty()
-    .withMessage("Price is required.")
-    .isInt()
-    .withMessage(`Don't use fraction number.`),
+      return true;
+    })
+    .withMessage("Image is required."),
+  check("price").not().isEmpty().withMessage("Price is required."),
 ];
 
 // validation handler
