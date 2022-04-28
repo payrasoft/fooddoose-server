@@ -90,8 +90,6 @@ const updateExtraFoodController = async (req, res, next) => {
   const { foodId } = req.params;
   const { itemName, price } = req.body;
   const file = req.file.filename || "";
-  // console.log(req.body);
-  // console.log(req.file.filename);
 
   try {
     const food = await ExtraItem.findOne({ _id: foodId });
