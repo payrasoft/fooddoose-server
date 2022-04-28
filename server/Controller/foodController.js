@@ -4,25 +4,15 @@ const { unlink } = require("fs");
 
 // add new food post controller
 const addNewFoodPostController = async (req, res, next) => {
-  const {
-    itemName,
-    categoryName,
-    quantity,
-    price,
-    deliveryTime,
-    discountType,
-    discountPrice,
-    shortDescription,
-    longDescription,
-  } = req.body;
-  const file = req.file.filename || "";
+  const { itemName, categoryName, quantity, price, deliveryTime } = req.body;
+  const file = req.file?.filename || "";
 
   try {
     const newFoodItem = new Food({
       ...req.body,
       quantity: parseInt(quantity),
       price: parseInt(price),
-      discountPrice: parseInt(discountPrice),
+      discountPrice: parseInt(req.body.discountPrice) || "",
       image: file,
     });
 

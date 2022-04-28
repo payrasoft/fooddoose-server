@@ -11,7 +11,7 @@ const foodValidator = [
     .withMessage("Name is required.")
     .trim(),
   check("categoryName").custom((categoryName, { req }) => {
-    if (categoryName === "1") {
+    if (categoryName === "") {
       return Promise.reject("Category name is required, Chose one.");
     }
     return true;
