@@ -21,7 +21,7 @@ foodRouter.post(
   foodValidationErrorHandler,
   addNewFoodPostController
 );
-foodRouter.get("/all-foods", isAuthenticate, allFoodsGetController);
+foodRouter.get("/all-foods", allFoodsGetController);
 foodRouter.get(
   "/single-item/:foodId",
   isAuthenticate,

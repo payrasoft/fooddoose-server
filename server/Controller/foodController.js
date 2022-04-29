@@ -69,19 +69,9 @@ const singleItemFoodGetController = async (req, res, next) => {
 
 // food update controller
 const foodUpdateController = async (req, res, next) => {
-  const {
-    itemName,
-    categoryName,
-    quantity,
-    price,
-    deliveryTime,
-    discountType,
-    discountPrice,
-    shortDescription,
-    longDescription,
-  } = req.body;
+  const { itemName, categoryName, quantity, price, deliveryTime } = req.body;
+  const file = req.file?.filename || "";
   const { foodId } = req.params;
-  const file = req.file.filename || "";
 
   try {
     if (req.file && req.file.filename) {
