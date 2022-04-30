@@ -3,24 +3,12 @@ const createError = require("http-errors");
 const path = require("path");
 const { unlink } = require("fs");
 
-// validator
-const foodValidator = [
+const extraItemValidator = [
   check("itemName")
     .isLength({ min: 1 })
     .notEmpty()
     .withMessage("Name is required.")
     .trim(),
-  check("categoryName").custom((categoryName, { req }) => {
-    if (categoryName === "") {
-      return Promise.reject("Category name is required, Chose one.");
-    }
-    return true;
-  }),
-  check("quantity").trim().isInt().withMessage("Quantity is required."),
-  check("price").trim().isInt().withMessage("Price is required."),
-  check("deliveryTime")
-    .notEmpty()
-    .withMessage("Delivery time must be in correct format yyyy:mm:dd hh:mm:ss"),
   check("image")
     .custom((image, { req }) => {
       if (image === null) {
@@ -29,20 +17,11 @@ const foodValidator = [
       return true;
     })
     .withMessage("Image is required."),
-  check("shortDescription")
-    .notEmpty()
-    .withMessage(`Description can not be empty.`)
-    .isLength({ min: 10 })
-    .withMessage(`Description will be greater than 10 words.`),
-  check("longDescription")
-    .notEmpty()
-    .withMessage(`Description can not be empty.`)
-    .isLength({ min: 20 })
-    .withMessage(`Description will be greater than 20 words.`),
+  check("price").not().isEmpty().withMessage("Price is required."),
 ];
 
 // validation handler
-const foodValidationErrorHandler = (req, res, next) => {
+const extraFoodValidationErrorHandler = (req, res, next) => {
   const errors = validationResult(req);
   const mappedErrors = errors.mapped();
 
@@ -67,6 +46,6 @@ const foodValidationErrorHandler = (req, res, next) => {
 };
 
 module.exports = {
-  foodValidator,
-  foodValidationErrorHandler,
+  extraItemValidator,
+  extraFoodValidationErrorHandler,
 };

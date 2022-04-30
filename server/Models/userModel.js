@@ -3,7 +3,6 @@ const autoIncrement = require("mongoose-auto-increment");
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-
         required: true,
         trim: true,
     },
