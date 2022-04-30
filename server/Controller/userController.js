@@ -15,7 +15,7 @@ const userRegisterController = async (req, res, next) => {
             password,
 
         } = req.body;
-        console.log(req.body);
+
 
         // Password Encryption
         const email1 = email.toLowerCase();
@@ -57,6 +57,15 @@ const userRegisterController = async (req, res, next) => {
     }
 };
 
+
+const isAuthenticate = async (req, res) => {
+    try {
+        res.json({ success: true });
+    } catch (error) {
+
+    }
+}
+
 // user login controller
 const userLoginController = async (req, res, next) => {
     try {
@@ -72,7 +81,6 @@ const userLoginController = async (req, res, next) => {
 
         const accesstoken = createAccessToken({ id: user._id });
         const refreshtoken = createRefreshToken({ id: user._id });
-
         refreshTokens.push(refreshtoken);
 
         // generate token
@@ -99,12 +107,12 @@ const userLoginController = async (req, res, next) => {
 
 // user logout controller
 const userLogoutController = async (req, res, next) => {
-    const refreshToken = req.header("Authorization");
+    const refreshToken = req.body.rf;
 
     try {
         // res.clearCookie('refreshtoken', { path: '/user/refresh_token' })
         refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
-        return res.json({ msg: "Logged out" });
+        return res.status(200).json({ msg: "Logged out" });
     } catch (err) {
         return res.status(500).json({ msg: err.message });
     }
@@ -145,7 +153,9 @@ const userUpdateController = async (req, res, next) => {
 
 // refresh Token
 const refreshToken = (req, res) => {
-    const rf_token = req.header("Authorization");
+    const rf_token = req.body.token;
+
+
     if (!rf_token)
         return res.status(400).json({ msg: "Please Login or Register" });
     if (!refreshTokens.includes(rf_token)) {
@@ -159,10 +169,10 @@ const refreshToken = (req, res) => {
         jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
             if (err) return res.status(400).json({ msg: "Please Login or Register" });
             const accesstoken = createAccessToken({ id: user.id });
-            res.json({ accesstoken });
+            res.json({ success: true, accesstoken });
         });
     } catch (err) {
-        return res.status(500).json({ msg: err.message });
+        return res.status(500).json({ success: false, msg: err.message });
     }
 };
 
@@ -208,7 +218,7 @@ const getSingleUserData = async (req, res, next) => {
 };
 
 const createAccessToken = (user) => {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "30m" });
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "20s" });
 };
 
 const createRefreshToken = (user) => {
@@ -223,6 +233,6 @@ module.exports = {
     refreshToken,
     getAllUserDataController,
     getSingleUserData,
-    createAccessToken,
-    createRefreshToken,
+    isAuthenticate
+
 };

@@ -1,4 +1,5 @@
 const userRouter = require("express").Router({ caseSensitive: true });
+const isAuthenticated = require('../Middleware/common/isAuthenticate')
 const {
     userRegisterController,
     userLoginController,
@@ -7,8 +8,8 @@ const {
     refreshToken,
     getAllUserDataController,
     getSingleUserData,
-    createAccessToken,
-    createRefreshToken,
+    isAuthenticate
+
 } = require("../Controller/userController");
 const { upload } = require("../Middleware/common/singleFileUpload");
 const {
@@ -32,14 +33,8 @@ userRouter.post("/login", userLoginController);
 userRouter.put("/update/:id", userUpdateController);
 userRouter.post('/logout', userLogoutController)
 userRouter.get('/all-user', getAllUserDataController)
-/* 
-// 
-userRouter.get('/refresh_token', userController.refreshToken);
-userRouter.get('/information/:id', userController.getUser)
-userRouter.get('/all-information', userController.allUser)
-userRouter.put('/edit/:id', auth, upload.single('avatar'), updateUserValidators, updateUserValidationHandler, userCtrl.editUser) */
+userRouter.post('/refreshToken', refreshToken)
+userRouter.get('/isAuthenticate', isAuthenticated, isAuthenticate)
 
-// userRouter.patch('/addcart', auth, userCtrl.addCart)
-// userRouter.get('/history', auth, userCtrl.history)
 
 module.exports = userRouter;

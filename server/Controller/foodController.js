@@ -52,10 +52,10 @@ const addNewFoodPostController = async (req, res, next) => {
 const allFoodsGetController = async (req, res, next) => {
     try {
         const foods = await Food.find();
-
+        console.log(foods);
         res.status(200).json({
             success: true,
-            books,
+            foods
         });
     } catch (error) {
         res.status(500).json({
