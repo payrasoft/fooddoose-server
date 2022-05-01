@@ -1,37 +1,46 @@
 const userRouter = require("express").Router({ caseSensitive: true });
 const {
-    userRegisterController,
-    userLoginController,
-    userLogoutController,
-    userUpdateController,
-    refreshToken,
-    getAllUserDataController,
-    getSingleUserData,
-    createAccessToken,
-    createRefreshToken,
+  userRegisterController,
+  userLoginController,
+  userLogoutController,
+  userUpdateController,
+  refreshToken,
+  getAllUserDataController,
+  getSingleUserData,
+  createAccessToken,
+  createRefreshToken,
 } = require("../Controller/userController");
 const { upload } = require("../Middleware/common/singleFileUpload");
 const {
-    addUserValidators,
-    addUserValidationHandler,
+  userEditValidator,
+  userEditValidatorErrorHandler,
+} = require("../Middleware/validator/userEditValidator");
+const {
+  addUserValidators,
+  addUserValidationHandler,
 } = require("../Middleware/validator/userValidator");
 const {
-    updateUserValidators,
-    updateUserValidationHandler,
+  updateUserValidators,
+  updateUserValidationHandler,
 } = require("../Middleware/validator/userValidator");
 // const auth = require("../Middleware/auth");
 
 userRouter.post(
-    "/register",
-    upload.single("logo"),
-    addUserValidators,
-    addUserValidationHandler,
-    userRegisterController
+  "/register",
+  upload.single("logo"),
+  addUserValidators,
+  addUserValidationHandler,
+  userRegisterController
 );
 userRouter.post("/login", userLoginController);
-userRouter.put("/update/:id", userUpdateController);
-userRouter.post('/logout', userLogoutController)
-userRouter.get('/all-user', getAllUserDataController)
+userRouter.post("/logout", userLogoutController);
+userRouter.get("/all-user", getAllUserDataController); // TODO -->> remove route
+// userRouter.put(
+//   "/update/:id",
+//   userEditValidator,
+//   userEditValidatorErrorHandler,
+//   userUpdateController
+// );
 /* 
 // 
 userRouter.get('/refresh_token', userController.refreshToken);

@@ -89,7 +89,7 @@ const deleteSingleExtraFoodItem = async (req, res, next) => {
 const updateExtraFoodController = async (req, res, next) => {
   const { foodId } = req.params;
   const { itemName, price } = req.body;
-  const file = req.file.filename || "";
+  const file = req.file?.filename || "";
 
   try {
     const food = await ExtraItem.findOne({ _id: foodId });
@@ -107,7 +107,7 @@ const updateExtraFoodController = async (req, res, next) => {
         },
         { new: true }
       );
-      console.log(path.join(path.dirname(__dirname)));
+
       // delete prev img
       unlink(path.join("public/" + `uploads/${food.image}`), (err) => {
         if (err) console.log(err);
