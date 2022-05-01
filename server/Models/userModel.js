@@ -48,7 +48,10 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 1,
     },
-});
+
+},
+    { timestamps: true }
+);
 autoIncrement.initialize(mongoose.connection);
 userSchema.plugin(autoIncrement.plugin, {
     model: "post",

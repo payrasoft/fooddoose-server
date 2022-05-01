@@ -30,10 +30,11 @@ userRouter.post(
     userRegisterController
 );
 userRouter.post("/login", userLoginController);
-userRouter.put("/update/:id", userUpdateController);
+userRouter.put("/update/:id", isAuthenticated, upload.single("logo"), userUpdateController);
 userRouter.post('/logout', userLogoutController)
 userRouter.get('/all-user', getAllUserDataController)
-userRouter.post('/refreshToken', refreshToken)
+userRouter.post('/refreshToken', refreshToken);
+userRouter.get('/single-user-info/:id', getSingleUserData)
 userRouter.get('/isAuthenticate', isAuthenticated, isAuthenticate)
 
 

@@ -1,8 +1,8 @@
 const Users = require("../Models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-/* const { unlink } = require("fs");
-const path = require("path"); */
+const { unlink } = require("fs");
+const path = require("path");
 
 let refreshTokens = [];
 
@@ -121,32 +121,56 @@ const userLogoutController = async (req, res, next) => {
 // user update controller
 const userUpdateController = async (req, res, next) => {
     const { id } = req.params;
-    const { name, email, password, shop_name, link, number } = req.body;
-
+    const { name, email, password, shop_name, link, number, status } = req.body;
+    const user = await Users.findOne({ _id: id })
     try {
-        const user = await Users.findOne({ _id: id });
-
-        if (!user) {
-            let error = new Error(`User not found.!`);
-            error.status = 404;
-
-            throw error;
-        }
-
-        let logo;
         if (req.file) {
-            logo = req.file.filename;
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
+            const updateUser = await Users.findOneAndUpdate({ _id: id }, {
+                $set: {
+                    logo: req.file.filename,
+                    ...req.body
+                }
+            }, { new: true });
 
-        await Users.findOneAndUpdate({ _id: user._id }, { $set: { name, email, number, link, hashedPassword, shop_name, logo } }, { new: true });
-        res.status(200).json({
-            success: true,
-            message: `User updated successfully.`,
-        });
+            unlink(
+                path.join(path.dirname(__dirname), `/public/uploads/${user.logo}`),
+                (err) => {
+                    if (err) console.log(err);
+                }
+            );
+            res.status(200).json({
+                success: true,
+                message: `User updated successfully.`,
+            });
+
+        }
+        else if (password) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const updateUser = await Users.findOneAndUpdate({ _id: id }, {
+                $set: {
+                    password: hashedPassword
+                }
+            }, { new: true });
+            res.status(200).json({
+                success: true,
+                message: `User updated successfully.`,
+            });
+        }
+
+        else {
+            const updateUser = await Users.findOneAndUpdate({ _id: id }, {
+                $set: {
+                    ...req.body
+                }
+            }, { new: true });
+            res.status(200).json({
+                success: true,
+                message: `User updated successfully.`,
+            });
+        }
     } catch (error) {
         return res.status(400).json({
-            msg: err.message,
+            msg: error.message,
         });
     }
 };
@@ -209,7 +233,7 @@ const getAllUserDataController = async (req, res, next) => {
 const getSingleUserData = async (req, res, next) => {
     const userId = req.params.id;
     try {
-        const user = await Users.findOne({ _id: userId }).select("-password -__v");
+        const user = await Users.findOne({ _id: userId }).select("-password -__v -confirmPassword");
         if (!user) return res.status(400).json({ msg: "User does not exist." });
         res.status(200).json(user);
     } catch (err) {

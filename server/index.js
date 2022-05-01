@@ -18,7 +18,7 @@ app.use(applicationMiddleware);
 
 // use routes
 allRoutes(app);
-
+app.use('/public/uploads', express.static('./public/uploads'))
 // database connection
 const URI = process.env.MONGO_CONNECTION_STRING;
 mongoose.connect(

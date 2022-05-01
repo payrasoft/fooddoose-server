@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev":"concurrently \"npm start\" \"cd ../../fooddoose-admin2 && npm start\"",
+    "dev": "concurrently \"npm start\" \"cd ../../fooddoose-admin2 && npm start\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": " nodemon app.js",
     "prod": "NODE_ENV=production node app.js"
