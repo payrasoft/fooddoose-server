@@ -16,6 +16,7 @@ const addUserValidators = [
   check("logo")
     .isEmpty()
     .withMessage("Please only submit .jpg, .jpeg & .png format."),
+
   check("email")
     .isEmail()
     .withMessage("Invalid email address")
@@ -59,7 +60,7 @@ const addUserValidators = [
     )
     .custom((confirmPassword, { req }) => {
       if (confirmPassword !== req.body.password) {
-        return Promise.reject("Password confirmation does not match password");
+        return Promise.reject("Password  does not matched");
       }
       return true;
     }),

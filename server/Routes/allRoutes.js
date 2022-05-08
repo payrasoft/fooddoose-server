@@ -1,3 +1,4 @@
+const categoryRouter = require("./categoryRouter");
 const extraItemRouter = require("./extraItemRouter");
 const foodRouter = require("./foodRouter");
 const refreshRouter = require("./refreshRouter");
@@ -20,6 +21,10 @@ const routes = [
   {
     path: "/refresh",
     handler: refreshRouter,
+  },
+  {
+    path: "/category",
+    handler: categoryRouter,
   },
   {
     path: "/",

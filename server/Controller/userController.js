@@ -8,10 +8,8 @@ let refreshTokens = [];
 
 // user register controller
 const userRegisterController = async (req, res, next) => {
+  const { email, password } = req.body;
   try {
-    const { email, password } = req.body;
-    console.log(req.body);
-
     // Password Encryption
     const email1 = email.toLowerCase();
     const passwordHash = await bcrypt.hash(password, 10);
@@ -52,6 +50,12 @@ const userRegisterController = async (req, res, next) => {
   }
 };
 
+const isAuthenticate = async (req, res) => {
+  try {
+    res.json({ success: true });
+  } catch (error) {}
+};
+
 // user login controller
 const userLoginController = async (req, res, next) => {
   try {
@@ -67,7 +71,6 @@ const userLoginController = async (req, res, next) => {
 
     const accesstoken = createAccessToken({ id: user._id });
     const refreshtoken = createRefreshToken({ id: user._id });
-
     refreshTokens.push(refreshtoken);
 
     // generate token
@@ -80,6 +83,9 @@ const userLoginController = async (req, res, next) => {
       _id: user._id,
       avatar: user.avatar,
     };
+
+    // set locals
+    res.locals.user = user;
 
     res.json({
       accesstoken,
@@ -94,20 +100,86 @@ const userLoginController = async (req, res, next) => {
 
 // user logout controller
 const userLogoutController = async (req, res, next) => {
-  const refreshToken = req.header("Authorization");
+  const refreshToken = req.body.rf;
 
   try {
     // res.clearCookie('refreshtoken', { path: '/user/refresh_token' })
     refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
-    return res.json({ msg: "Logged out" });
+    return res.status(200).json({ msg: "Logged out" });
   } catch (err) {
     return res.status(500).json({ msg: err.message });
   }
 };
 
+// user update controller
+const userUpdateController = async (req, res, next) => {
+  const { id } = req.params;
+  const { name, email, password, shop_name, link, number, status } = req.body;
+  const user = await Users.findOne({ _id: id });
+  try {
+    if (req.file) {
+      const updateUser = await Users.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            logo: req.file.filename,
+            ...req.body,
+          },
+        },
+        { new: true }
+      );
+
+      unlink(
+        path.join(path.dirname(__dirname), `/public/uploads/${user.logo}`),
+        (err) => {
+          if (err) console.log(err);
+        }
+      );
+      res.status(200).json({
+        success: true,
+        message: `User updated successfully.`,
+      });
+    } else if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const updateUser = await Users.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            password: hashedPassword,
+          },
+        },
+        { new: true }
+      );
+      res.status(200).json({
+        success: true,
+        message: `User updated successfully.`,
+      });
+    } else {
+      const updateUser = await Users.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            ...req.body,
+          },
+        },
+        { new: true }
+      );
+      res.status(200).json({
+        success: true,
+        message: `User updated successfully.`,
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      msg: error.message,
+    });
+  }
+};
+
 // refresh Token
 const refreshToken = (req, res) => {
-  const rf_token = req.header("Authorization");
+  const rf_token = req.body.token;
+
   if (!rf_token)
     return res.status(400).json({ msg: "Please Login or Register" });
   if (!refreshTokens.includes(rf_token)) {
@@ -123,10 +195,10 @@ const refreshToken = (req, res) => {
     jwt.verify(rf_token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
       if (err) return res.status(400).json({ msg: "Please Login or Register" });
       const accesstoken = createAccessToken({ id: user.id });
-      res.json({ accesstoken });
+      res.json({ success: true, accesstoken });
     });
   } catch (err) {
-    return res.status(500).json({ msg: err.message });
+    return res.status(500).json({ success: false, msg: err.message });
   }
 };
 
@@ -163,7 +235,9 @@ const getAllUserDataController = async (req, res, next) => {
 const getSingleUserData = async (req, res, next) => {
   const userId = req.params.id;
   try {
-    const user = await Users.findOne({ _id: userId }).select("-password -__v");
+    const user = await Users.findOne({ _id: userId }).select(
+      "-password -__v -confirmPassword"
+    );
     if (!user) return res.status(400).json({ msg: "User does not exist." });
     res.status(200).json(user);
   } catch (err) {
@@ -172,7 +246,7 @@ const getSingleUserData = async (req, res, next) => {
 };
 
 const createAccessToken = (user) => {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "30m" });
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "20s" });
 };
 
 const createRefreshToken = (user) => {
@@ -185,7 +259,9 @@ module.exports = {
   userRegisterController,
   userLoginController,
   userLogoutController,
+  userUpdateController,
   refreshToken,
   getAllUserDataController,
   getSingleUserData,
+  isAuthenticate,
 };
