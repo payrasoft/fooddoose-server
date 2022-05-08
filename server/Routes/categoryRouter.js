@@ -1,5 +1,12 @@
 const categoryRouter = require("express").Router({ caseSensitive: true });
-const { categoryPostController } = require("../Controller/categoryController");
+const {
+  categoryPostController,
+  allCategoryGetController,
+  deleteCategoryController,
+  singleCategoryGetController,
+  updateCategoryController,
+} = require("../Controller/categoryController");
+const isAuthenticate = require("../Middleware/common/isAuthenticate");
 const { upload } = require("../Middleware/common/singleFileUpload");
 const {
   categoryValidators,
@@ -8,10 +15,19 @@ const {
 
 categoryRouter.post(
   "/new-category",
+  isAuthenticate,
   upload.single("image"),
   categoryValidators,
   categoryValidationHandler,
   categoryPostController
 );
+categoryRouter.get("/all-category", isAuthenticate, allCategoryGetController);
+categoryRouter.get(
+  "/single-category/:categoryName",
+  isAuthenticate,
+  singleCategoryGetController
+);
+categoryRouter.delete("/delete/:id", isAuthenticate, deleteCategoryController);
+categoryRouter.put("/update/:id", isAuthenticate, updateCategoryController);
 
 module.exports = categoryRouter;

@@ -1,5 +1,6 @@
 const Category = require("../Models/CategorieModel");
 
+// post controller
 const categoryPostController = async (req, res, next) => {
   const { categoryName, status } = req.body;
   const file = req.file?.filename;
@@ -28,6 +29,124 @@ const categoryPostController = async (req, res, next) => {
   }
 };
 
+// all category get controller
+const allCategoryGetController = async (req, res, next) => {
+  try {
+    const categories = await Category.find({});
+
+    res.status(200).json({
+      success: true,
+      categories,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: `There was an server side error`,
+    });
+  }
+};
+
+// delete category
+const deleteCategoryController = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    await Category.findOneAndDelete({ _id: id });
+
+    res.status(200).json({
+      success: true,
+      message: "Category item delete successfully.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: `There was an server side error`,
+    });
+  }
+};
+
+// single category
+const singleCategoryGetController = async (req, res, next) => {
+  try {
+    const category = await Category.findOne({
+      categoryName: req.params.categoryName,
+    });
+
+    res.status(200).json({
+      success: true,
+      category,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: `There was an server side error`,
+    });
+  }
+};
+
+// update category
+const updateCategoryController = async (req, res, next) => {
+  const { id } = req.params;
+  const { categoryName, status } = req.body;
+  const file = req.file.filename || "";
+
+  try {
+    const category = await Category.findOne({ _id: id });
+
+    if (req.file) {
+      const updateCategory = await Category.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            ...req.body,
+            image: file,
+          },
+        },
+        { new: true }
+      );
+
+      // delete prev img
+      unlink(
+        path.join(path.dirname(__dirname), `/public/uploads/${category.image}`),
+        (err) => {
+          if (err) console.log(err);
+        }
+      );
+
+      // response
+      res.status(200).json({
+        success: true,
+        message: "Category updated successfully.",
+        updateCategory,
+      });
+    } else {
+      const updateCategory = await Category.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            ...req.body,
+          },
+        },
+        { new: true }
+      );
+      res.status(200).json({
+        success: true,
+        message: "Category updated successfully.",
+        updateCategory,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: `There was an server side error`,
+    });
+  }
+};
+
 module.exports = {
   categoryPostController,
+  allCategoryGetController,
+  deleteCategoryController,
+  singleCategoryGetController,
+  updateCategoryController,
 };
