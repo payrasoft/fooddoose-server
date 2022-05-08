@@ -7,7 +7,7 @@ const categoryPostController = async (req, res, next) => {
 
   try {
     const newCategory = new Category({
-      user: req.user._id,
+      user: req.userId,
       categoryName,
       image: file,
       status,
@@ -20,6 +20,7 @@ const categoryPostController = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: `Category added successfully.!`,
+      newCategory,
     });
   } catch (error) {
     res.status(500).json({
@@ -31,8 +32,10 @@ const categoryPostController = async (req, res, next) => {
 
 // all category get controller
 const allCategoryGetController = async (req, res, next) => {
+  const { page = 1, limit = 10, status } = req.query;
+
   try {
-    const categories = await Category.find({});
+    const categories = await Category.find({ _id: req.userId, status: status });
 
     res.status(200).json({
       success: true,

@@ -84,9 +84,6 @@ const userLoginController = async (req, res, next) => {
       avatar: user.avatar,
     };
 
-    // set locals
-    res.locals.user = user;
-
     res.json({
       accesstoken,
       refreshtoken,
