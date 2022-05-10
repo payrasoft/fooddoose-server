@@ -23,7 +23,7 @@ categoryRouter.post(
 );
 categoryRouter.get("/all-category", allCategoryGetController);
 categoryRouter.get(
-  "/single-category/:categoryName",
+  "/single-category/:id",
   isAuthenticate,
   singleCategoryGetController
 );

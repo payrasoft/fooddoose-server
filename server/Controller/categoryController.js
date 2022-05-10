@@ -72,7 +72,7 @@ const deleteCategoryController = async (req, res, next) => {
 const singleCategoryGetController = async (req, res, next) => {
   try {
     const category = await Category.findOne({
-      categoryName: req.params.categoryName,
+      _id: req.params.id,
     });
 
     res.status(200).json({
