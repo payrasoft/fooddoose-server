@@ -91,7 +91,7 @@ const singleCategoryGetController = async (req, res, next) => {
 const updateCategoryController = async (req, res, next) => {
   const { id } = req.params;
   const { categoryName, status } = req.body;
-  const file = req.file.filename || "";
+  const file = req.file?.filename || "";
 
   try {
     const category = await Category.findOne({ _id: id });

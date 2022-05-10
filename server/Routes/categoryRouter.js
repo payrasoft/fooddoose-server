@@ -9,6 +9,10 @@ const {
 const isAuthenticate = require("../Middleware/common/isAuthenticate");
 const { upload } = require("../Middleware/common/singleFileUpload");
 const {
+  categoryEditValidators,
+  categoryEditValidationHandler,
+} = require("../Middleware/validator/categoryEditValidator");
+const {
   categoryValidators,
   categoryValidationHandler,
 } = require("../Middleware/validator/categoryValidator");
@@ -28,6 +32,12 @@ categoryRouter.get(
   singleCategoryGetController
 );
 categoryRouter.delete("/delete/:id", isAuthenticate, deleteCategoryController);
-categoryRouter.put("/update/:id", isAuthenticate, updateCategoryController);
+categoryRouter.put(
+  "/update/:id",
+  isAuthenticate,
+  categoryEditValidators,
+  categoryEditValidationHandler,
+  updateCategoryController
+);
 
 module.exports = categoryRouter;
