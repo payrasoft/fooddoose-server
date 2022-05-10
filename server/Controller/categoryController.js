@@ -35,7 +35,7 @@ const allCategoryGetController = async (req, res, next) => {
   const { page = 1, limit = 10, status } = req.query;
 
   try {
-    const categories = await Category.find({ _id: req.userId });
+    const categories = await Category.find({});
 
     res.status(200).json({
       success: true,
