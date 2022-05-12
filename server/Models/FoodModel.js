@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const autoIncrement = require("mongoose-auto-increment");
 const foodSchema = new mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "userModel",
+    },
     itemName: {
       type: String,
       required: true,

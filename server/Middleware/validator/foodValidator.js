@@ -37,8 +37,8 @@ const foodValidator = [
   check("longDescription")
     .notEmpty()
     .withMessage(`Description can not be empty.`)
-    .isLength({ min: 20 })
-    .withMessage(`Description will be greater than 20 words.`),
+    .isLength({ min: 10 })
+    .withMessage(`Description will be greater than 10 words.`),
 ];
 
 // validation handler

@@ -10,6 +10,7 @@ const addNewFoodPostController = async (req, res, next) => {
   try {
     const newFoodItem = new Food({
       ...req.body,
+      user: req.userId,
       quantity: parseInt(quantity),
       price: parseInt(price),
       discountPrice: parseInt(req.body.discountPrice) || "",
@@ -34,7 +35,7 @@ const addNewFoodPostController = async (req, res, next) => {
 // all foods get controller
 const allFoodsGetController = async (req, res, next) => {
   try {
-    const foods = await Food.find({});
+    const foods = await Food.find({ user: req.userId });
 
     res.status(200).json({
       success: true,
@@ -70,11 +71,10 @@ const singleItemFoodGetController = async (req, res, next) => {
 // food update controller
 const foodUpdateController = async (req, res, next) => {
   const { foodId } = req.params;
-  const food = await Food.findOne({ _id: foodId })
+  const food = await Food.findOne({ _id: foodId });
 
   try {
     if (req.file) {
-
       const updateFood = await Food.findOneAndUpdate(
         { _id: foodId },
         {
@@ -94,12 +94,11 @@ const foodUpdateController = async (req, res, next) => {
         }
       );
 
-
       // response
       res.status(200).json({
         success: true,
         message: "Food updated successfully.",
-        updateFood
+        updateFood,
       });
     } else {
       const updateFood = await Food.findOneAndUpdate(
@@ -114,7 +113,7 @@ const foodUpdateController = async (req, res, next) => {
       res.status(200).json({
         success: true,
         message: "Food updated successfully.",
-        updateFood
+        updateFood,
       });
     }
   } catch (error) {

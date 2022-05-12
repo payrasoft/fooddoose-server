@@ -9,6 +9,7 @@ const extraItemFoodAddPostController = async (req, res, next) => {
 
   try {
     const newExtraItem = new ExtraItem({
+      user: req.userId,
       itemName,
       image: file,
       price: parseInt(price),
@@ -33,7 +34,7 @@ const extraItemFoodAddPostController = async (req, res, next) => {
 // extra all items
 const allExtraFoodItemsGetController = async (req, res, next) => {
   try {
-    const extraItems = await ExtraItem.find({});
+    const extraItems = await ExtraItem.find({ user: req.userId });
 
     res.status(200).json({
       success: true,

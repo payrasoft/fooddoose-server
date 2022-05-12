@@ -25,7 +25,7 @@ categoryRouter.post(
   categoryValidationHandler,
   categoryPostController
 );
-categoryRouter.get("/all-category", allCategoryGetController);
+categoryRouter.get("/all-category", isAuthenticate, allCategoryGetController);
 categoryRouter.get(
   "/single-category/:id",
   isAuthenticate,
