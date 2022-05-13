@@ -42,7 +42,7 @@ userRouter.put(
 userRouter.post("/logout", userLogoutController);
 userRouter.get("/all-user", isAuthenticate, getAllUserDataController);
 userRouter.post("/refreshToken", refreshToken);
-userRouter.get("/single-user-info/", getSingleUserData);
+userRouter.get("/single-user-info/", isAuthenticated, getSingleUserData);
 userRouter.get("/isAuthenticate", isAuthenticated, isAuthenticate);
 
 module.exports = userRouter;
