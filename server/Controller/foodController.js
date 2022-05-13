@@ -4,7 +4,8 @@ const { unlink } = require("fs");
 
 // add new food post controller
 const addNewFoodPostController = async (req, res, next) => {
-  const { itemName, categoryName, quantity, price, deliveryTime } = req.body;
+  const { itemName, categoryName, quantity, price, deliveryTime, timeFormat } =
+    req.body;
   const file = req.file?.filename || "";
 
   try {

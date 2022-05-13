@@ -27,6 +27,9 @@ const foodSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    timeFormat: {
+      type: String,
+    },
     discountType: {
       type: String,
     },

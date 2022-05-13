@@ -230,9 +230,8 @@ const getAllUserDataController = async (req, res, next) => {
 
 // get single user data
 const getSingleUserData = async (req, res, next) => {
-  const userId = req.params.id;
   try {
-    const user = await Users.findOne({ _id: userId }).select(
+    const user = await Users.findOne({ _id: req.userId }).select(
       "-password -__v -confirmPassword"
     );
     if (!user) return res.status(400).json({ msg: "User does not exist." });

@@ -40,9 +40,9 @@ userRouter.put(
   userUpdateController
 );
 userRouter.post("/logout", userLogoutController);
-userRouter.get("/all-user", getAllUserDataController);
+userRouter.get("/all-user", isAuthenticate, getAllUserDataController);
 userRouter.post("/refreshToken", refreshToken);
-userRouter.get("/single-user-info/:id", getSingleUserData);
+userRouter.get("/single-user-info/", getSingleUserData);
 userRouter.get("/isAuthenticate", isAuthenticated, isAuthenticate);
 
 module.exports = userRouter;
