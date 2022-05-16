@@ -9,6 +9,7 @@ const {
   getAllUserDataController,
   getSingleUserData,
   isAuthenticate,
+  allUsers,
 } = require("../Controller/userController");
 const { upload } = require("../Middleware/common/singleFileUpload");
 const {
