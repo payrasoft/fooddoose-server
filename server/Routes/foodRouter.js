@@ -6,6 +6,7 @@ const {
   singleItemFoodGetController,
   foodUpdateController,
   singleFoodItemDeleteController,
+  allFoods,
 } = require("../Controller/foodController");
 const { upload } = require("../Middleware/common/singleFileUpload");
 const {
@@ -22,6 +23,7 @@ foodRouter.post(
   addNewFoodPostController
 );
 foodRouter.get("/all-foods", isAuthenticate, allFoodsGetController);
+foodRouter.get("/all/all-foods", isAuthenticate, allFoods);
 foodRouter.get(
   "/single-item/:foodId",
   isAuthenticate,

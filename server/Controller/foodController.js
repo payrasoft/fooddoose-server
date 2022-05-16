@@ -33,7 +33,7 @@ const addNewFoodPostController = async (req, res, next) => {
   }
 };
 
-// all foods get controller
+// logged in user all foods get controller
 const allFoodsGetController = async (req, res, next) => {
   try {
     const foods = await Food.find({ user: req.userId });
@@ -41,6 +41,23 @@ const allFoodsGetController = async (req, res, next) => {
     res.status(200).json({
       success: true,
       foods,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: `There was an server side error`,
+    });
+  }
+};
+
+// all food get controller
+const allFoods = async (req, res, next) => {
+  try {
+    const allFoods = await Food.find({});
+
+    res.status(200).json({
+      success: true,
+      allFoods,
     });
   } catch (error) {
     res.status(500).json({
@@ -150,4 +167,5 @@ module.exports = {
   singleItemFoodGetController,
   foodUpdateController,
   singleFoodItemDeleteController,
+  allFoods,
 };
