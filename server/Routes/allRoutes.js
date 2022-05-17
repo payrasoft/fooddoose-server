@@ -1,3 +1,4 @@
+const bannerRouter = require("./bannerRouter");
 const categoryRouter = require("./categoryRouter");
 const extraItemRouter = require("./extraItemRouter");
 const foodRouter = require("./foodRouter");
@@ -25,6 +26,10 @@ const routes = [
   {
     path: "/category",
     handler: categoryRouter,
+  },
+  {
+    path: "/banner",
+    handler: bannerRouter,
   },
   {
     path: "/",

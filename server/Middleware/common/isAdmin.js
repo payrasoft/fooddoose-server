@@ -5,9 +5,10 @@ const isAdmin = async (req, res, next) => {
   try {
     const token = req.header("Authorization");
     if (!token) {
-      return res
-        .status(400)
-        .json({ success: false, message: `Invalid Authentication` });
+      return res.status(400).json({
+        success: false,
+        message: `Invalid Authentication`,
+      });
     }
 
     const decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);

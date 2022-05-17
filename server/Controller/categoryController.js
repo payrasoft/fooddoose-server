@@ -1,4 +1,6 @@
 const Category = require("../Models/CategorieModel");
+const path = require("path");
+const { unlink } = require("fs");
 
 // post controller
 const categoryPostController = async (req, res, next) => {
