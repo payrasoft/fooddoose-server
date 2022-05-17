@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npm start\" \"cd ../../fooddoose-admin2 && npm start\"",
-    "website": "concurrently \"npm start\"\"cd ../../FoodDoose-Website && npm start\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": " nodemon app.js",
     "prod": "NODE_ENV=production node app.js"
