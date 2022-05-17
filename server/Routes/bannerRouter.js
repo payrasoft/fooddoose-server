@@ -23,13 +23,8 @@ bannerRouter.post(
   bannerValidatorHandler,
   addBannerPostController
 );
-bannerRouter.get("/all-banner", isAuthenticate, isAdmin, getAllBanner);
-bannerRouter.get(
-  "/single-banner/:bannerId",
-  isAuthenticate,
-  isAdmin,
-  getSingleBanner
-);
+bannerRouter.get("/all-banner", getAllBanner);
+bannerRouter.get("/single-banner/:bannerId", getSingleBanner);
 bannerRouter.put("/update/:bannerId", isAuthenticate, isAdmin, updateBanner);
 bannerRouter.delete("/delete/:bannerId", isAuthenticate, isAdmin, deleteBanner);
 module.exports = bannerRouter;
