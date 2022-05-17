@@ -23,7 +23,7 @@ foodRouter.post(
   addNewFoodPostController
 );
 foodRouter.get("/all-foods", isAuthenticate, allFoodsGetController);
-foodRouter.get("/all/all-foods", isAuthenticate, allFoods);
+foodRouter.get("/all/all-foods", allFoods);
 foodRouter.get(
   "/single-item/:foodId",
   isAuthenticate,
