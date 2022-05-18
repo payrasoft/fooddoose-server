@@ -12,7 +12,7 @@ const bannerValidator = [
       return true;
     })
     .withMessage("Image is required."),
-  check("status").notEmpty().withMessage("Name is required.").trim(),
+  check("status").notEmpty().withMessage("Status is required.").trim(),
 ];
 
 // validator handler

@@ -13,6 +13,7 @@ const isAdmin = async (req, res, next) => {
 
     const decode = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const { id } = decode;
+    req.userId = id;
 
     const adminUser = await Users.findById(id);
     if (adminUser.role === 3) {

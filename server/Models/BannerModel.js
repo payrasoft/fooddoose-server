@@ -5,7 +5,6 @@ const bannerSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "userModel",
     },
     image: {
       type: String,

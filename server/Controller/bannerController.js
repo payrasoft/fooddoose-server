@@ -57,15 +57,9 @@ const getSingleBanner = async (req, res, next) => {
   try {
     const banner = await Banner.findOne({ user: req.userId, _id: bannerId });
 
-    if (banner) {
-      res.status(200).json({
-        success: true,
-        banner,
-      });
-    }
-    res.status(404).json({
-      success: false,
-      message: `Banner not found.!`,
+    res.status(200).json({
+      success: true,
+      banner,
     });
   } catch (error) {
     res.status(500).json({
@@ -129,7 +123,7 @@ const deleteBanner = async (req, res, next) => {
   const { bannerId } = req.params;
 
   try {
-    await Banner.findOneAndDelete({ _id: bannerId });
+    await Banner.findOneAndDelete({ user: req.userId, _id: bannerId });
 
     res.status(200).json({
       success: true,

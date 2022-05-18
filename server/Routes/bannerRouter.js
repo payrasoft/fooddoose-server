@@ -16,7 +16,6 @@ const {
 
 bannerRouter.post(
   "/add-banner",
-  isAuthenticate,
   isAdmin,
   upload.single("image"),
   bannerValidator,
@@ -25,6 +24,6 @@ bannerRouter.post(
 );
 bannerRouter.get("/all-banner", getAllBanner);
 bannerRouter.get("/single-banner/:bannerId", getSingleBanner);
-bannerRouter.put("/update/:bannerId", isAuthenticate, isAdmin, updateBanner);
-bannerRouter.delete("/delete/:bannerId", isAuthenticate, isAdmin, deleteBanner);
+bannerRouter.put("/update/:bannerId", isAdmin, updateBanner);
+bannerRouter.delete("/delete/:bannerId", isAdmin, deleteBanner);
 module.exports = bannerRouter;
