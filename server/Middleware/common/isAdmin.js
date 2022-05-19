@@ -15,8 +15,8 @@ const isAdmin = async (req, res, next) => {
     const { id } = decode;
     req.userId = id;
 
-    const adminUser = await Users.findById(id);
-    if (adminUser.role === 3) {
+    const adminUser = await Users.findOne({ _id: id });
+    if (adminUser.role == 3) {
       next();
     }
 

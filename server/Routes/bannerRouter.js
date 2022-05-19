@@ -24,6 +24,11 @@ bannerRouter.post(
 );
 bannerRouter.get("/all-banner", getAllBanner);
 bannerRouter.get("/single-banner/:bannerId", getSingleBanner);
-bannerRouter.put("/update/:bannerId", isAdmin, updateBanner);
+bannerRouter.put(
+  "/update/:bannerId",
+  upload.single("image"),
+  isAdmin,
+  updateBanner
+);
 bannerRouter.delete("/delete/:bannerId", isAdmin, deleteBanner);
 module.exports = bannerRouter;
