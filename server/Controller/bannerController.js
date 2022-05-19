@@ -123,7 +123,18 @@ const deleteBanner = async (req, res, next) => {
   const { bannerId } = req.params;
 
   try {
-    await Banner.findOneAndDelete({ user: req.userId, _id: bannerId });
+    const banner = await Banner.findOneAndDelete({
+      user: req.userId,
+      _id: bannerId,
+    });
+
+    // delete prev img
+    unlink(
+      path.join(path.dirname(__dirname), `/public/uploads/${banner.image}`),
+      (err) => {
+        if (err) console.log(err);
+      }
+    );
 
     res.status(200).json({
       success: true,
