@@ -9,6 +9,7 @@ let refreshTokens = [];
 // user register controller
 const userRegisterController = async (req, res, next) => {
   const { email, password } = req.body;
+
   try {
     // Password Encryption
     const email1 = email.toLowerCase();
@@ -61,6 +62,7 @@ const userLoginController = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await Users.findOne({ email });
+    console.log(user);
 
     if (!user) return res.status(400).json({ msg: "User does not exist." });
     const isMatch = await bcrypt.compare(password, user.password);

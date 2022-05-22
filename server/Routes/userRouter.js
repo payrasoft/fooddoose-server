@@ -28,7 +28,10 @@ const {
 
 userRouter.post(
   "/register",
-  upload.single("logo"),
+  upload.fields([
+    { name: "logo", maxCount: 1 },
+    { name: "image", maxCount: 1 },
+  ]),
   addUserValidators,
   addUserValidationHandler,
   userRegisterController
@@ -37,11 +40,14 @@ userRouter.post("/login", userLoginController);
 userRouter.put(
   "/update/:id",
   isAuthenticated,
-  upload.single("logo"),
+  upload.fields([
+    { name: "logo", maxCount: 1 },
+    { name: "image", maxCount: 1 },
+  ]),
   userUpdateController
 );
 userRouter.post("/logout", userLogoutController);
-userRouter.get("/all-user", isAuthenticate, getAllUserDataController);
+userRouter.get("/all-user", isAuthenticated, getAllUserDataController);
 userRouter.post("/refreshToken", refreshToken);
 userRouter.get("/single-user-info/", isAuthenticated, getSingleUserData);
 userRouter.get("/isAuthenticate", isAuthenticated, isAuthenticate);
