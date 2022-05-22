@@ -53,7 +53,7 @@ const allFoodsGetController = async (req, res, next) => {
 // all food get controller
 const allFoods = async (req, res, next) => {
   try {
-    const allFoods = await Food.find({});
+    const allFoods = await Food.find({ user: req.params.restaurantId });
 
     res.status(200).json({
       success: true,
