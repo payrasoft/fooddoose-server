@@ -8,18 +8,30 @@ const User = require("../../Models/userModel");
 const addUserValidators = [
   check("name")
     .isLength({ min: 1 })
-    .withMessage("Name is required")
+    .withMessage("Name is required.!")
     .isAlpha("en-US", { ignore: " -" })
-    .withMessage("Name must not contain anything other than alphabet")
+    .withMessage("Name must not contain anything other than alphabet.!")
     .trim(),
-  check("shopName").isLength({ min: 1 }).withMessage("Shop Name is required"),
+  check("shopName").isLength({ min: 1 }).withMessage("Shop Name is required.!"),
   check("logo")
     .isEmpty()
-    .withMessage("Please only submit .jpg, .jpeg & .png format."),
-
+    .withMessage("Please only submit .jpg, .jpeg & .png format.!"),
+  check("image")
+    .isEmpty()
+    .withMessage("Please only submit .jpg, .jpeg & .png format.!"),
+  check("openHour")
+    .isLength({ min: 1 })
+    .withMessage("Open hour time is required.!"),
+  check("closeHour")
+    .isLength({ min: 1 })
+    .withMessage("Close hour time is required"),
+  check("latitude").isLength({ min: 1 }).withMessage("Latitude is required.!"),
+  check("longitude")
+    .isLength({ min: 1 })
+    .withMessage("Longitude is required.!"),
   check("email")
     .isEmail()
-    .withMessage("Invalid email address")
+    .withMessage("Invalid email address.!")
     .trim()
     .custom(async (value) => {
       try {
@@ -37,7 +49,7 @@ const addUserValidators = [
     .isMobilePhone("bn-BD", {
       strictMode: false,
     })
-    .withMessage("Mobile number must be a valid Bangladeshi mobile number")
+    .withMessage("Mobile number must be a valid Bangladeshi mobile number.!")
     .custom(async (value) => {
       try {
         const user = await User.findOne({ number: value });
@@ -60,7 +72,7 @@ const addUserValidators = [
     )
     .custom((confirmPassword, { req }) => {
       if (confirmPassword !== req.body.password) {
-        return Promise.reject("Password  does not matched");
+        return Promise.reject("Password  does not matched.!");
       }
       return true;
     }),
