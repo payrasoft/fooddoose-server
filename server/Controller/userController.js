@@ -28,6 +28,7 @@ const userRegisterController = async (req, res, next) => {
       newUser = new Users({
         ...req.body,
         password: passwordHash,
+        confirmPassword: passwordHash,
         email: email1,
       });
     }
@@ -145,6 +146,7 @@ const userUpdateController = async (req, res, next) => {
         {
           $set: {
             password: hashedPassword,
+            confirmPassword: passwordHash,
           },
         },
         { new: true }
