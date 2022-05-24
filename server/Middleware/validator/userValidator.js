@@ -14,10 +14,20 @@ const addUserValidators = [
     .trim(),
   check("shopName").isLength({ min: 1 }).withMessage("Shop Name is required.!"),
   check("logo")
-    .isEmpty()
+    .custom((logo, { req }) => {
+      if (logo === null) {
+        return Promise.reject("Please only submit .jpg, .jpeg & .png format.!");
+      }
+      return true;
+    })
     .withMessage("Please only submit .jpg, .jpeg & .png format.!"),
   check("image")
-    .isEmpty()
+    .custom((image, { req }) => {
+      if (image === null) {
+        return Promise.reject("Please only submit .jpg, .jpeg & .png format.!");
+      }
+      return true;
+    })
     .withMessage("Please only submit .jpg, .jpeg & .png format.!"),
   check("openHour")
     .isLength({ min: 1 })

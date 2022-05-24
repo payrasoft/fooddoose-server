@@ -31,9 +31,11 @@ const userSchema = new mongoose.Schema(
     },
     logo: {
       type: String,
+      require: true,
     },
     image: {
       type: String,
+      require: true,
     },
     openHour: {
       type: String,

@@ -47,7 +47,7 @@ userRouter.put(
   userUpdateController
 );
 userRouter.post("/logout", userLogoutController);
-userRouter.get("/all-user", isAuthenticated, getAllUserDataController);
+userRouter.get("/all-user", getAllUserDataController);
 userRouter.post("/refreshToken", refreshToken);
 userRouter.get("/single-user-info/", isAuthenticated, getSingleUserData);
 userRouter.get("/isAuthenticate", isAuthenticated, isAuthenticate);
