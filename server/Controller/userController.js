@@ -9,6 +9,10 @@ let refreshTokens = [];
 // user register controller
 const userRegisterController = async (req, res, next) => {
   const { email, password } = req.body;
+  console.log(req.body);
+  // console.log(req.files);
+  console.log(req.files["logo"][0].filename);
+  // console.log(req.files["image"][0]);
 
   try {
     // Password Encryption
@@ -16,21 +20,22 @@ const userRegisterController = async (req, res, next) => {
     const passwordHash = await bcrypt.hash(password, 10);
 
     let newUser;
-    if (req.file && req.file.filename) {
+    if (req.files) {
       newUser = new Users({
         ...req.body,
-        logo: req.file.filename || "",
+        logo: req.files["logo"][0].filename || "",
+        image: req.files["image"][0].filename || "",
         password: passwordHash,
         email: email1,
         confirmPassword: passwordHash,
       });
-    } else {
-      newUser = new Users({
-        ...req.body,
-        password: passwordHash,
-        confirmPassword: passwordHash,
-        email: email1,
-      });
+      // } else {
+      //   newUser = new Users({
+      //     ...req.body,
+      //     password: passwordHash,
+      //     confirmPassword: passwordHash,
+      //     email: email1,
+      //   });
     }
 
     // Save mongodb
