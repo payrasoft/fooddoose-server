@@ -18,7 +18,8 @@ app.use(applicationMiddleware);
 
 // use routes
 allRoutes(app);
-app.use('/public/uploads', express.static('./public/uploads'))
+app.use("/public/uploads", express.static("./public/uploads"));
+
 // database connection
 const URI = process.env.MONGO_CONNECTION_STRING;
 mongoose.connect(
@@ -44,7 +45,7 @@ app.all("/", function (req, res, next) {
 });
 
 // server running port
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
 });

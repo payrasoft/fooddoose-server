@@ -2,8 +2,10 @@ const bannerRouter = require("./bannerRouter");
 const categoryRouter = require("./categoryRouter");
 const extraItemRouter = require("./extraItemRouter");
 const foodRouter = require("./foodRouter");
+const OTPRouter = require("./OTPRouter");
 const refreshRouter = require("./refreshRouter");
 const rootRouter = require("./rootRouter");
+const simpleUserRouter = require("./simpleUserRouter");
 const userRouter = require("./userRouter");
 
 const routes = [
@@ -30,6 +32,14 @@ const routes = [
   {
     path: "/banner",
     handler: bannerRouter,
+  },
+  {
+    path: "/otp",
+    handler: OTPRouter,
+  },
+  {
+    path: "/simple-user",
+    handler: simpleUserRouter,
   },
   {
     path: "/",
