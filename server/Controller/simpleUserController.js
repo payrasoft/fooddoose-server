@@ -81,6 +81,84 @@ const simpleUserLoginController = async (req, res, next) => {
   }
 };
 
+// all user data
+const allUserData = async (req, res, next) => {
+  try {
+    const allUser = await SimpleUser.find({}).select(
+      "-password -__v -confirmPassword"
+    );
+
+    res.status(200).json({
+      success: true,
+      data: allUser,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: `There was an server side error`,
+    });
+  }
+};
+
+// single user data
+const singleUserData = async (req, res, next) => {
+  try {
+    const user = await SimpleUser.findOne({ _id: req.userId }).select(
+      "-password -__v -confirmPassword"
+    );
+
+    if (!user) return res.status(400).json({ msg: "User does not exist." });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: `There was an server side error`,
+    });
+  }
+};
+
+// update
+const updateUser = async (req, res, next) => {
+  const { id } = req.params;
+  const { password } = req.body;
+
+  try {
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const updatedUser = await SimpleUser.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            password: hashedPassword,
+            confirmPassword: hashedPassword,
+          },
+        },
+        { new: true }
+      );
+      res.status(200).json({
+        success: true,
+        message: `User updated successfully.`,
+      });
+    } else {
+      const updatedUser = await SimpleUser.findByIdAndUpdate(
+        { _id: id },
+        { $set: { ...req.body } },
+        { new: true }
+      );
+      res.status(200).json({
+        success: true,
+        message: `User updated successfully.`,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: `There was an server side error`,
+    });
+  }
+};
+
 const createAccessToken = (user) => {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
 };
@@ -92,4 +170,7 @@ const createRefreshToken = (user) => {
 module.exports = {
   simpleUserRegisterController,
   simpleUserLoginController,
+  allUserData,
+  singleUserData,
+  updateUser,
 };
