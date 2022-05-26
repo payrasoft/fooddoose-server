@@ -246,6 +246,52 @@ const getSingleUserData = async (req, res, next) => {
   }
 };
 
+// status rejected controller
+const statusRejectedController = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const updateStatus = await Users.findOneAndUpdate(
+      { _id: id },
+      { $set: { status: "Rejected" } },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: `Status rejected successfully.!`,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: `There was an server side error.!`,
+    });
+  }
+};
+
+// status approved controller
+const statusApprovedController = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const updateStatus = await Users.findOneAndUpdate(
+      { _id: id },
+      { $set: { status: "Approved" } },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: `Status approved successfully.!`,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: `There was an server side error.!`,
+    });
+  }
+};
+
 const createAccessToken = (user) => {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1d" });
 };
@@ -263,4 +309,6 @@ module.exports = {
   getAllUserDataController,
   getSingleUserData,
   isAuthenticate,
+  statusRejectedController,
+  statusApprovedController,
 };

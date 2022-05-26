@@ -10,6 +10,8 @@ const {
   getSingleUserData,
   isAuthenticate,
   allUsers,
+  statusRejectedController,
+  statusApprovedController,
 } = require("../Controller/userController");
 const { upload } = require("../Middleware/common/singleFileUpload");
 const {
@@ -50,6 +52,8 @@ userRouter.post("/logout", userLogoutController);
 userRouter.get("/all-user", getAllUserDataController);
 userRouter.post("/refreshToken", refreshToken);
 userRouter.get("/single-user-info/", isAuthenticated, getSingleUserData);
+userRouter.put("/delete/:id", isAuthenticated, statusRejectedController);
+userRouter.put("/approved/:id", isAuthenticated, statusApprovedController);
 userRouter.get("/isAuthenticate", isAuthenticated, isAuthenticate);
 
 module.exports = userRouter;
