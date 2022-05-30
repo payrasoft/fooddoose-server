@@ -3,18 +3,32 @@ const autoIncrement = require("mongoose-auto-increment");
 
 const orderSchema = new mongoose.Schema(
   {
-    userId: {
+    orderUserId: {
       type: mongoose.Schema.Types.ObjectId,
     },
-    merchantId: {
-      type: mongoose.Schema.Types.ObjectId,
+    status: {
+      type: String,
+      default: "Pending",
     },
+    latitude: {
+      type: String,
+      required: true,
+    },
+    longitude: {
+      type: String,
+      required: true,
+    },
+    items: [
+      {
+        type: String,
+      },
+    ],
   },
   { timestamps: true }
 );
 
 autoIncrement.initialize(mongoose.connection);
-foodSchema.plugin(autoIncrement.plugin, {
+orderSchema.plugin(autoIncrement.plugin, {
   model: "post",
   field: "orderId",
   startAt: 1,

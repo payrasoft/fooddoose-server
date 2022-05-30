@@ -2,6 +2,7 @@ const bannerRouter = require("./bannerRouter");
 const categoryRouter = require("./categoryRouter");
 const extraItemRouter = require("./extraItemRouter");
 const foodRouter = require("./foodRouter");
+const orderRouter = require("./orderRouter");
 const OTPRouter = require("./OTPRouter");
 const refreshRouter = require("./refreshRouter");
 const rootRouter = require("./rootRouter");
@@ -40,6 +41,10 @@ const routes = [
   {
     path: "/simple-user",
     handler: simpleUserRouter,
+  },
+  {
+    path: "/order",
+    handler: orderRouter,
   },
   {
     path: "/",
