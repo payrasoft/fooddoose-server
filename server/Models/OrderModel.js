@@ -10,11 +10,7 @@ const orderSchema = new mongoose.Schema(
       type: String,
       default: "Pending",
     },
-    latitude: {
-      type: String,
-      required: true,
-    },
-    longitude: {
+    address: {
       type: String,
       required: true,
     },

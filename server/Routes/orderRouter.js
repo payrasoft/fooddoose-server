@@ -9,8 +9,9 @@ const {
 } = require("../Controller/orderController");
 const isAdmin = require("../Middleware/common/isAdmin");
 const isAuthenticate = require("../Middleware/common/isAuthenticate");
+const userAuthenticate = require("../Middleware/common/userAuthenticate");
 
-orderRouter.post("/order-foods", isAuthenticate, orderFoodsController);
+orderRouter.post("/order-foods", userAuthenticate, orderFoodsController);
 orderRouter.put("/rejected-order/:id", isAdmin, orderStatusRejectedController);
 orderRouter.put("/approved-order/:id", isAdmin, orderStatusApprovedController);
 orderRouter.get(
