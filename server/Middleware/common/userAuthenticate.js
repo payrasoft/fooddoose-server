@@ -6,8 +6,10 @@ const userAuthenticate = (req, res, next) => {
   try {
     const token = authorization.split(" ")[1];
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    const { id } = decoded;
+    const { id, name, phone } = decoded;
     req.userId = id;
+    req.name = name;
+    req.phone = phone;
 
     next();
   } catch (error) {

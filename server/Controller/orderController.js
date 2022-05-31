@@ -8,6 +8,8 @@ const orderFoodsController = async (req, res, next) => {
     const newOrder = new Order({
       ...req.body,
       orderUserId: req.userId,
+      name: req.name,
+      phone: req.phone,
       items,
     });
 
@@ -76,7 +78,9 @@ const singleOrderCustomerDataGetController = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const order = await Food.findOne({ orderUserId: req.userId }).populate("items");
+    const order = await Food.findOne({ orderUserId: req.userId }).populate(
+      "items"
+    );
 
     res.status(200).json({
       success: true,
