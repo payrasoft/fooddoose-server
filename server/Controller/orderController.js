@@ -1,7 +1,7 @@
 const Order = require("../Models/OrderModel");
 
 const orderFoodsController = async (req, res, next) => {
-  const { status, latitude, longitude } = req.body;
+  const { items } = req.body;
   console.log(req.body);
 
   try {

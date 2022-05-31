@@ -14,6 +14,12 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    totalItems: {
+      type: String,
+    },
+    totalUniqueItems: {
+      type: String,
+    },
     items: [
       {
         type: String,
