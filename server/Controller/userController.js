@@ -246,6 +246,27 @@ const getSingleUserData = async (req, res, next) => {
   }
 };
 
+// admin get single user
+const adminGetSingleUserData = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const user = await Users.findOne({ _id: id });
+
+    if (!user) return res.status(400).json({ msg: "User does not exist." });
+
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: `There was an server side error.!`,
+    });
+  }
+};
+
 // status rejected controller
 const statusRejectedController = async (req, res, next) => {
   const { id } = req.params;
@@ -311,4 +332,5 @@ module.exports = {
   isAuthenticate,
   statusRejectedController,
   statusApprovedController,
+  adminGetSingleUserData,
 };

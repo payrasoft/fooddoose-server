@@ -52,6 +52,11 @@ userRouter.post("/logout", userLogoutController);
 userRouter.get("/all-user", getAllUserDataController);
 userRouter.post("/refreshToken", refreshToken);
 userRouter.get("/single-user-info/", isAuthenticated, getSingleUserData);
+userRouter.get(
+  "/admin-get/single-user-info/:id",
+  isAuthenticated,
+  getSingleUserData
+);
 userRouter.put("/delete/:id", isAuthenticated, statusRejectedController);
 userRouter.put("/approved/:id", isAuthenticated, statusApprovedController);
 userRouter.get("/isAuthenticate", isAuthenticated, isAuthenticate);
