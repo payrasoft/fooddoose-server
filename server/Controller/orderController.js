@@ -129,7 +129,9 @@ const singleOrderDeleteController = async (req, res, next) => {
 // user order controller
 const userOrderController = async (req, res, next) => {
   try {
-    const userOrderData = await Order.find({ orderUserId: req.userId });
+    const userOrderData = await Order.find({
+      orderUserId: req.userId,
+    }).populate("author");
 
     res.status(200).json({
       success: true,
