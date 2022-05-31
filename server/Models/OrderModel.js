@@ -20,12 +20,10 @@ const orderSchema = new mongoose.Schema(
     totalUniqueItems: {
       type: String,
     },
-    items: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "foods",
-      },
-    ],
+    items: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Foods",
+    },
   },
   { timestamps: true }
 );
