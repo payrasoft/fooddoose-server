@@ -61,7 +61,11 @@ const simpleUserLoginController = async (req, res, next) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid Credential." });
 
-    const accessToken = createAccessToken({ id: user._id });
+    const accessToken = createAccessToken({
+      id: user._id,
+      name: newUser.name,
+      phone: newUser.phone,
+    });
 
     // user data
     const userData = {

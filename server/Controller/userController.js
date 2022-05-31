@@ -38,7 +38,10 @@ const userRegisterController = async (req, res, next) => {
     await newUser.save();
 
     // Then create jsonwebtoken to authentication
-    const accesstoken = createAccessToken({ id: newUser._id });
+    const accesstoken = createAccessToken({
+      id: newUser._id,
+      shopName: newUser.shopName,
+    });
     const refreshtoken = createRefreshToken({ id: newUser._id });
 
     res.cookie("refreshtoken", refreshtoken, {
@@ -73,7 +76,10 @@ const userLoginController = async (req, res, next) => {
       return res.status(400).json({ msg: "You can not login right now" });
     }
 
-    const accesstoken = createAccessToken({ id: user._id });
+    const accesstoken = createAccessToken({
+      id: user._id,
+      shopName: newUser.shopName,
+    });
     const refreshtoken = createRefreshToken({ id: user._id });
     refreshTokens.push(refreshtoken);
 
