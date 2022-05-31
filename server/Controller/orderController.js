@@ -97,7 +97,7 @@ const singleOrderCustomerDataGetController = async (req, res, next) => {
 // admin get all data
 const adminGetAllOrderDataController = async (req, res, next) => {
   try {
-    const orders = await Food.find({}).populate("items");
+    const orders = await Order.find({}).populate("items");
 
     res.status(200).json({
       success: true,
