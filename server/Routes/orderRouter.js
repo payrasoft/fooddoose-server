@@ -6,6 +6,7 @@ const {
   singleOrderCustomerDataGetController,
   adminGetAllOrderDataController,
   singleOrderDeleteController,
+  userOrderController,
 } = require("../Controller/orderController");
 const isAdmin = require("../Middleware/common/isAdmin");
 const isAuthenticate = require("../Middleware/common/isAuthenticate");
@@ -20,6 +21,7 @@ orderRouter.get(
   singleOrderCustomerDataGetController
 );
 orderRouter.get("/all-order/", isAdmin, adminGetAllOrderDataController);
+orderRouter.get("/user-order/", userAuthenticate, userOrderController);
 orderRouter.delete("/delete-order/:id", isAdmin, singleOrderDeleteController);
 
 module.exports = orderRouter;

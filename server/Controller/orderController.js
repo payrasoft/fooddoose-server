@@ -126,6 +126,23 @@ const singleOrderDeleteController = async (req, res, next) => {
   }
 };
 
+// user order controller
+const userOrderController = async (req, res, next) => {
+  try {
+    const userOrderData = await Order.find({ orderUserId: req.userId });
+
+    res.status(200).json({
+      success: true,
+      data: userOrderData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: `There was an server side error`,
+    });
+  }
+};
+
 module.exports = {
   orderFoodsController,
   orderStatusRejectedController,
@@ -133,4 +150,5 @@ module.exports = {
   singleOrderCustomerDataGetController,
   adminGetAllOrderDataController,
   singleOrderDeleteController,
+  userOrderController,
 };
