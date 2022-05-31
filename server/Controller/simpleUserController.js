@@ -26,7 +26,11 @@ const simpleUserRegisterController = async (req, res, next) => {
     await newUser.save();
 
     // Then create jsonwebtoken to authentication
-    const accessToken = createAccessToken({ id: newUser._id });
+    const accessToken = createAccessToken({
+      id: newUser._id,
+      name: newUser.name,
+      phone: newUser.phone,
+    });
     const refreshToken = createRefreshToken({ id: newUser._id });
 
     res.cookie("refresh_token", refreshToken, {
