@@ -131,7 +131,7 @@ const userOrderController = async (req, res, next) => {
   try {
     const userOrderData = await Order.find({
       orderUserId: req.userId,
-    }).populate("author");
+    }).populate("items");
 
     res.status(200).json({
       success: true,
