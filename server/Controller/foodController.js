@@ -14,6 +14,7 @@ const addNewFoodPostController = async (req, res, next) => {
       user: req.userId,
       quantity: parseInt(quantity),
       price: parseInt(price),
+      shopName: req.shopName,
       discountPrice: parseInt(req.body.discountPrice) || "",
       image: file,
     });
