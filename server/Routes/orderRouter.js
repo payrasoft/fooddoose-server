@@ -21,7 +21,7 @@ orderRouter.get(
   singleOrderCustomerDataGetController
 );
 orderRouter.get("/all-order/", isAdmin, adminGetAllOrderDataController);
-orderRouter.get("/user-order/", userAuthenticate, userOrderController);
+orderRouter.get("/single-user-order/", userAuthenticate, userOrderController);
 orderRouter.delete("/delete-order/:id", isAdmin, singleOrderDeleteController);
 
 module.exports = orderRouter;
