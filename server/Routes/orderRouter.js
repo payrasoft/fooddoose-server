@@ -13,15 +13,35 @@ const isAuthenticate = require("../Middleware/common/isAuthenticate");
 const userAuthenticate = require("../Middleware/common/userAuthenticate");
 
 orderRouter.post("/order-foods", userAuthenticate, orderFoodsController);
-orderRouter.put("/rejected-order/:id", isAdmin, orderStatusRejectedController);
-orderRouter.put("/approved-order/:id", isAdmin, orderStatusApprovedController);
+orderRouter.put(
+  "/rejected-order/:id",
+  isAuthenticate,
+  isAdmin,
+  orderStatusRejectedController
+);
+orderRouter.put(
+  "/approved-order/:id",
+  isAuthenticate,
+  isAdmin,
+  orderStatusApprovedController
+);
 orderRouter.get(
   "/user-order/",
   isAuthenticate,
   singleOrderCustomerDataGetController
 );
-orderRouter.get("/all-order/", isAdmin, adminGetAllOrderDataController);
+orderRouter.get(
+  "/all-order/",
+  isAuthenticate,
+  isAdmin,
+  adminGetAllOrderDataController
+);
 orderRouter.get("/single-user-order/", userAuthenticate, userOrderController);
-orderRouter.delete("/delete-order/:id", isAdmin, singleOrderDeleteController);
+orderRouter.delete(
+  "/delete-order/:id",
+  isAuthenticate,
+  isAdmin,
+  singleOrderDeleteController
+);
 
 module.exports = orderRouter;
