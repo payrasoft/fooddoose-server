@@ -78,7 +78,7 @@ const userLoginController = async (req, res, next) => {
 
     const accesstoken = createAccessToken({
       id: user._id,
-      shopName: newUser.shopName,
+      shopName: user.shopName,
     });
     const refreshtoken = createRefreshToken({ id: user._id });
     refreshTokens.push(refreshtoken);
@@ -136,12 +136,15 @@ const userUpdateController = async (req, res, next) => {
         { new: true }
       );
 
+      // remove prev img
       unlink(
         path.join(path.dirname(__dirname), `/public/uploads/${user.logo}`),
         (err) => {
           if (err) console.log(err);
         }
       );
+
+      // response
       res.status(200).json({
         success: true,
         message: `User updated successfully.`,

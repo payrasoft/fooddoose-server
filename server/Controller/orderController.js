@@ -1,5 +1,6 @@
 const Order = require("../Models/OrderModel");
 
+// new order
 const orderFoodsController = async (req, res, next) => {
   const { items } = req.body;
   console.log(req.body);
@@ -32,7 +33,7 @@ const orderStatusRejectedController = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const updateStatus = await Users.findOneAndUpdate(
+    const updateStatus = await Order.findOneAndUpdate(
       { _id: id },
       { $set: { status: "Rejected" } },
       { new: true }
@@ -55,7 +56,7 @@ const orderStatusApprovedController = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const updateStatus = await Users.findOneAndUpdate(
+    const updateStatus = await Order.findOneAndUpdate(
       { _id: id },
       { $set: { status: "Approved" } },
       { new: true }
@@ -73,12 +74,35 @@ const orderStatusApprovedController = async (req, res, next) => {
   }
 };
 
+// order status completed controller
+const orderStatusCompletedController = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const updateStatus = await Order.findOneAndUpdate(
+      { _id: id },
+      { $set: { status: "Completed" } },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: `Status Completed successfully.!`,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: `There was an server side error.!`,
+    });
+  }
+};
+
 // single user all order data
 const singleOrderCustomerDataGetController = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const order = await Food.findOne({ orderUserId: req.userId }).populate(
+    const order = await Order.findOne({ orderUserId: req.userId }).populate(
       "items"
     );
 
@@ -116,7 +140,7 @@ const singleOrderDeleteController = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    await Food.findOneAndDelete({ _id: id });
+    await Order.findOneAndDelete({ _id: id });
 
     res.status(200).json({
       success: true,
@@ -149,6 +173,25 @@ const userOrderController = async (req, res, next) => {
   }
 };
 
+// single order get by id
+const singleOrderGetById = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const order = await Order.findOne({ _id: id }).populate("items");
+
+    res.status(200).json({
+      success: true,
+      data: order,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: `There was an server side error`,
+    });
+  }
+};
+
 module.exports = {
   orderFoodsController,
   orderStatusRejectedController,
@@ -157,4 +200,6 @@ module.exports = {
   adminGetAllOrderDataController,
   singleOrderDeleteController,
   userOrderController,
+  singleOrderGetById,
+  orderStatusCompletedController,
 };

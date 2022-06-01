@@ -15,6 +15,9 @@ const foodSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    shopName: {
+      type: String,
+    },
     quantity: {
       type: Number,
       required: true,

@@ -63,8 +63,8 @@ const simpleUserLoginController = async (req, res, next) => {
 
     const accessToken = createAccessToken({
       id: user._id,
-      name: newUser.name,
-      phone: newUser.phone,
+      name: user.name,
+      phone: user.phone,
     });
 
     // user data
